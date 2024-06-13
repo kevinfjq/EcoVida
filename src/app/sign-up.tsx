@@ -1,31 +1,34 @@
-import {Text, View, StyleSheet, Image} from "react-native";
+import {Image, StyleSheet, Text, View} from "react-native";
+import Svg, {Defs, LinearGradient, Path, Stop} from "react-native-svg";
 import {Input} from "@/components/input";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {colors} from "@/src/styles/colors";
 import {Link} from "expo-router";
-import {fontFamily} from "@/src/styles/fontFamily";
 import {Button} from "@/components/button";
-import Svg, {Defs, LinearGradient, Path, Stop} from "react-native-svg";
 
-export default function Index() {
+export default function SignUp() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Svg height="270" width="388" viewBox="0 0 340 160">
+        <Svg height="380" width="400" viewBox="0 0 340 240">
           <Path
-            d="M-0.711029 -99.6099C49.5986 -118.636 95.2239 -113.112 198.411 -75.508C287.529 -43.025 399.567 -38.0884 489.407 21.1366C529.734 47.7207 543.02 105.082 490.37 134.904C437.718 164.727 358.976 118.315 220.22 176.293C93.219 229.36 -54.8152 168.667 -73.3503 32.0265C-81.2703 -26.3646 -51.4387 -80.4275 -0.711029 -99.6099Z"
-            fill="url(#paint0_linear_34_119)"
+            d="M-66.8492 172.958C-142.141 159.074 -180.473 93.8111 -140.311 43.1695C-71.5211 -43.5719 67.1243 -24.6125 149.462 -77.5925C195.72 -107.357 255.12 -136.165 311.889 -123.843C355.064 -114.464 398.246 -82.6113 392.234 -23.7011C386.22 35.2097 349.162 55.9887 380.043 114.114C403.283 157.872 408.683 176.387 393.704 199.045C361.259 248.117 250.767 203.97 208.839 186.037C122.081 148.94 23.53 189.642 -66.8492 172.958Z"
+            fill="url(#paint0_linear_34_118)"
           />
           <Defs>
-            <LinearGradient id="paint0_linear_34_119" x1="-81.1305" y1="1.98238" x2="360.534" y2="334.479" gradientUnits="userSpaceOnUse">
-              <Stop offset="0.105" stopColor="#9E45D4"/>
-              <Stop offset="0.72" stopColor="#301E36"/>
+            <LinearGradient id="paint0_linear_34_118" x1="-142.861" y1="152.977" x2="409.001" y2="24.0882" gradientUnits="userSpaceOnUse">
+              <Stop offset="0.415" stopColor="#185317"/>
+              <Stop offset="0.64" stopColor="#102D0F"/>
             </LinearGradient>
           </Defs>
         </Svg>
         <Image source={require("@/assets/images/icon.png")} style={styles.imageHeader} resizeMode="contain"  />
       </View>
-      <Text style={styles.text}>Bem-vindo(a)</Text>
+      <Text style={styles.text}>Novo Usuário</Text>
+      <Input>
+        <MaterialCommunityIcons style={styles.icon} name={"account-outline"} size={28} color={colors.black.full} />
+        <Input.Field placeholder="Digite seu nome"/>
+      </Input>
       <Input>
         <MaterialCommunityIcons style={styles.icon} name={"email-outline"} size={28} color={colors.black.full} />
         <Input.Field placeholder="Digite seu email"/>
@@ -34,11 +37,10 @@ export default function Index() {
         <MaterialCommunityIcons style={styles.icon} name={"key-outline"} size={28} color={colors.black.full} />
         <Input.Field placeholder="Digite sua senha"/>
       </Input>
-      <Link style={styles.link} href="/forgot-password">Esqueceu a senha?</Link>
-      <Button title="Entrar" color={colors.green.default}/>
+      <Button title="Cadastrar" color={colors.green.default}/>
       <Text style={{fontSize: 15, fontWeight: 'bold'}}>OU</Text>
       <Button icon={true} title="Entrar com o Google" color={colors.purple.default}/>
-      <Text style={{fontSize: 14, marginTop: 12}}>Não possui cadastro? <Link style={styles.signUp} href="/sign-up" >Cadastre-se</Link></Text>
+      <Text style={{fontSize: 14, marginTop: 12}}>Já possui conta? <Link style={styles.link} href="/" >Faça o login</Link></Text>
     </View>
   );
 
@@ -70,17 +72,8 @@ const styles = StyleSheet.create({
     padding: 25,
   },
   link: {
-    fontSize: 12,
-    fontFamily: fontFamily.plight,
-    color: colors.gray["300"],
-    alignSelf: "flex-end",
-    padding: 10,
-    paddingTop: 4,
-    paddingRight: 20,
-  },
-  signUp: {
     textDecorationStyle: 'solid',
     textDecorationLine: 'underline',
-  }
+  },
 
 })

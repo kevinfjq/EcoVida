@@ -4,25 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5424c07b-9798-4048-b42c-795d2899bfd6" name="Changes" comment="feat: add fonts and colors">
-      <change afterPath="$PROJECT_DIR$/components/button.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/input.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/forgot-password.tsx" afterDir="false" />
+    <list default="true" id="5424c07b-9798-4048-b42c-795d2899bfd6" name="Changes" comment="feat: add login screen">
+      <change afterPath="$PROJECT_DIR$/src/app/sign-up.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Collapsible.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ExternalLink.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/HelloWave.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ParallaxScrollView.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ThemedText.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ThemedView.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/__tests__/ThemedText-test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/__tests__/ThemedText-test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/navigation/TabBarIcon.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/input.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/input.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/_layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/colors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/colors.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/fontFamily.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/fontFamily.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +77,7 @@
       <updated>1718111556185</updated>
       <workItem from="1718111557498" duration="11000" />
       <workItem from="1718111606046" duration="9493000" />
-      <workItem from="1718198976527" duration="14593000" />
+      <workItem from="1718198976527" duration="18194000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -108,7 +95,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718159013458</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="feat: add login screen">
+      <option name="closed" value="true" />
+      <created>1718269919511</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1718269919511</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -117,6 +112,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial commit" />
     <MESSAGE value="feat: add fonts and colors" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add fonts and colors" />
+    <MESSAGE value="feat: add login screen" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add login screen" />
   </component>
 </project>
