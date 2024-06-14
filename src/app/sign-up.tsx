@@ -3,10 +3,34 @@ import Svg, {Defs, LinearGradient, Path, Stop} from "react-native-svg";
 import {Input} from "@/components/input";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {colors} from "@/src/styles/colors";
-import {Link} from "expo-router";
+import {Link, router} from "expo-router";
 import {Button} from "@/components/button";
+import {useState} from "react";
+import {FIREBASE_AUTH} from "@/firebaseConfig";
+import {createUserWithEmailAndPassword} from "@firebase/auth";
 
 export default function SignUp() {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false)
+
+  function signUp() {
+    try{
+      setLoading(true);
+      createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          router.back();
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setLoading(false);
+          console.error(errorCode + ": " +errorMessage);
+        })
+    } catch (error){}
+  }
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -27,19 +51,19 @@ export default function SignUp() {
       <Text style={styles.text}>Novo Usuário</Text>
       <Input>
         <MaterialCommunityIcons style={styles.icon} name={"account-outline"} size={28} color={colors.black.full} />
-        <Input.Field placeholder="Digite seu nome"/>
+        <Input.Field placeholder="Digite seu nome" onChangeText={setUsername}/>
       </Input>
       <Input>
         <MaterialCommunityIcons style={styles.icon} name={"email-outline"} size={28} color={colors.black.full} />
-        <Input.Field placeholder="Digite seu email"/>
+        <Input.Field placeholder="Digite seu email" onChangeText={setEmail}/>
       </Input>
       <Input>
         <MaterialCommunityIcons style={styles.icon} name={"key-outline"} size={28} color={colors.black.full} />
-        <Input.Field placeholder="Digite sua senha"/>
+        <Input.Field secureTextEntry={true} placeholder="Digite sua senha" onChangeText={setPassword}/>
       </Input>
-      <Button title="Cadastrar" color={colors.green.default}/>
+      <Button isLoading={loading} title="Cadastrar" onPress={signUp} color={colors.green.default}/>
       <Text style={{fontSize: 15, fontWeight: 'bold'}}>OU</Text>
-      <Button icon={true} title="Entrar com o Google" color={colors.purple.default}/>
+      <Button isLoading={loading} icon={true} title="Entrar com o Google" color={colors.purple.default}/>
       <Text style={{fontSize: 14, marginTop: 12}}>Já possui conta? <Link style={styles.link} href="/" >Faça o login</Link></Text>
     </View>
   );

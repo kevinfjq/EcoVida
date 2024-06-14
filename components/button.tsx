@@ -14,7 +14,7 @@ export function Button({title, isLoading = false, color, icon, ...rest}: Props) 
   return(
     <TouchableOpacity disabled={isLoading} activeOpacity={0.7} {...rest}  style={[styles.touchable, {backgroundColor: color}]}>
       {
-        isLoading ? (<ActivityIndicator />)
+        isLoading ? (<ActivityIndicator size="large" color={colors.gray["300"]} />)
           : icon? (
             <View style={styles.container}>
               <Image style={styles.image} source={require("@/assets/images/icons/google-icon.png")}/>

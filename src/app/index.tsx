@@ -1,13 +1,61 @@
-import {Text, View, StyleSheet, Image} from "react-native";
+import {Text, View, StyleSheet, Image, Alert} from "react-native";
 import {Input} from "@/components/input";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {colors} from "@/src/styles/colors";
-import {Link} from "expo-router";
+import {Link, Redirect, router} from "expo-router";
 import {fontFamily} from "@/src/styles/fontFamily";
 import {Button} from "@/components/button";
 import Svg, {Defs, LinearGradient, Path, Stop} from "react-native-svg";
+import {FIREBASE_AUTH} from "@/firebaseConfig";
+import {onAuthStateChanged, signInWithEmailAndPassword} from "@firebase/auth";
+import {useEffect, useState} from "react";
 
 export default function Index() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [loginAttempted, setLoginAttempted] = useState(false);
+  const auth = FIREBASE_AUTH;
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (loginAttempted) {
+        if (user) {
+          router.push("/home");
+        } else {
+          Alert.alert('Falha ao entrar', 'Usuário ou senha incorreto, Tente novamente!');
+        }
+        setLoginAttempted(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [auth, loginAttempted]);
+
+  async function login() {
+    try{
+      setLoginAttempted(true);
+      await signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user)
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setLoading(false);
+          setLoginAttempted(false);
+          console.error("Código: " + errorCode + ": mensagem:" +errorMessage);
+        })
+
+    } catch (error) {
+      setLoading(false);
+      setLoginAttempted(false);
+    }
+  }
+
+
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -28,16 +76,16 @@ export default function Index() {
       <Text style={styles.text}>Bem-vindo(a)</Text>
       <Input>
         <MaterialCommunityIcons style={styles.icon} name={"email-outline"} size={28} color={colors.black.full} />
-        <Input.Field placeholder="Digite seu email"/>
+        <Input.Field  placeholder="Digite seu email" onChangeText={setEmail}/>
       </Input>
       <Input>
         <MaterialCommunityIcons style={styles.icon} name={"key-outline"} size={28} color={colors.black.full} />
-        <Input.Field placeholder="Digite sua senha"/>
+        <Input.Field secureTextEntry={true} placeholder="Digite sua senha" onChangeText={setPassword}/>
       </Input>
       <Link style={styles.link} href="/forgot-password">Esqueceu a senha?</Link>
-      <Button title="Entrar" color={colors.green.default}/>
+      <Button isLoading={loading} title="Entrar" onPress={login} color={colors.green.default}/>
       <Text style={{fontSize: 15, fontWeight: 'bold'}}>OU</Text>
-      <Button icon={true} title="Entrar com o Google" color={colors.purple.default}/>
+      <Button isLoading={loading} icon={true} title="Entrar com o Google" color={colors.purple.default}/>
       <Text style={{fontSize: 14, marginTop: 12}}>Não possui cadastro? <Link style={styles.signUp} href="/sign-up" >Cadastre-se</Link></Text>
     </View>
   );
