@@ -1,5 +1,5 @@
 import {View, Text} from "react-native";
-import {useNavigation} from "expo-router";
+import {Link, useNavigation} from "expo-router";
 import {useEffect} from "react";
 
 export default function Home() {
@@ -11,9 +11,11 @@ export default function Home() {
       console.log("onback");
     });
   }, []);
+
   return(
     <View>
       <Text>Home</Text>
+      <Link href={"/calculatorScreen"}>Ir para a calculadora de pegada de carbono</Link>
     </View>
   )
 }

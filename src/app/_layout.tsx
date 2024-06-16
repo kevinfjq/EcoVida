@@ -32,6 +32,7 @@ export default function RootLayout() {
     <Stack>
       <Stack.Screen options={{headerShown: false}} name="index" />
       <Stack.Screen options={{headerShown: false}} name="sign-up" />
+      <Stack.Screen options={{ headerShown: true, title: 'Calculadora' }} name="calculatorScreen" />
     </Stack>
   );
 }
