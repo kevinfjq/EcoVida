@@ -1,8 +1,13 @@
-import {View, Text} from "react-native";
+import {View, Text, ScrollView} from "react-native";
 import {Link, useNavigation} from "expo-router";
 import {useEffect} from "react";
+import Routes from "../routes";
+import { NavigationContainer } from "@react-navigation/native";
+import React from "react";
+import HeaderHome from "@/components/headerHome";
+import SliderHome from "@/components/sliderHome";
 
-export default function Home() {
+const Home: React.FC = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -13,9 +18,23 @@ export default function Home() {
   }, []);
 
   return(
-    <View>
-      <Text>Home</Text>
-      <Link href={"/calculatorScreen"}>Ir para a calculadora de pegada de carbono</Link>
-    </View>
-  )
+    <ScrollView>
+      <View>
+        <View>
+          <HeaderHome/>
+        </View>
+        <View>
+          <SliderHome/>
+        </View>
+        <Text>Home</Text>
+        <Link href={"/calculatorScreen"}>Ir para a calculadora de pegada de carbono</Link>
+      </View>
+    </ScrollView>
+    
+    /*<NavigationContainer>
+      <Routes/>
+    </NavigationContainer>*/
+  );
 }
+
+export default Home;

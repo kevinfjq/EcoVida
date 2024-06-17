@@ -1,5 +1,7 @@
+import { fontFamily } from '@/src/styles/fontFamily';
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, ScrollView, TouchableOpacity, Modal } from 'react-native';
+import RNPickerSelect from 'react-native-picker-select';
 
 const Calculator: React.FC = () => {
   const [inputs, setInputs] = useState({
@@ -24,6 +26,10 @@ const Calculator: React.FC = () => {
     setInputs({ ...inputs, [key]: value });
   };
 
+  // apresentação do resultado
+  const [modalVisible, setModalVisible] = useState(false);
+  const [resultMessage, setResultMessage] = useState('');
+
   const calculatePegadaDeCarbono = () => {
     let transportEmission = 0;
     let foodEmission = 0;
@@ -41,6 +47,9 @@ const Calculator: React.FC = () => {
     else if (inputs.mainTransport === 'Ônibus') {
         transportEmission = parseFloat(inputs.kmPercorrido) * 0.089;
     }
+    else if(inputs.mainTransport === 'A pé' || inputs.mainTransport === 'Bicicleta'){
+        transportEmission = 0;
+    }
 
     // Cálculos para Alimentação
     foodEmission = (parseFloat(inputs.kgCarneVermelha) * 27) + (parseFloat(inputs.kgCarneBranca) * 6.9) + (parseFloat(inputs.kgVegetais) * 2);
@@ -57,39 +66,60 @@ const Calculator: React.FC = () => {
     // Total da Pegada de Carbono
     const totalEmission = transportEmission + foodEmission + energyEmission + wasteEmission + productEmission;
     setResult(totalEmission);
-  };
 
+    let message;
+    if (totalEmission < 100) {
+      message = 'Parabéns, você emite pouco carbono!';
+    } else if (totalEmission < 200) {
+      message = 'Você está na média, mas pode melhorar!';
+    } else {
+      message = 'Opa, você está emitindo muito carbono!';
+    }
+    setResultMessage(message);
+    setModalVisible(true);
+  };  
+  
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Calculadora de Pegada de Carbono</Text>
-
+      <Text style={styles.title}>Perguntas</Text>
+      
       {/* Transporte */}
       <View style={styles.formGroup}>
-        <Text>Qual é o seu principal meio de transporte?</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Principal meio de transporte"
+        <Text style={styles.questionsText}>Qual é o seu principal meio de transporte?</Text>
+        <RNPickerSelect
+          onValueChange={(value) => handleInputChange('mainTransport', value)}
+          items={[
+            { label: 'Carro', value: 'Carro' },
+            { label: 'Ônibus', value: 'Ônibus' },
+            { label: 'A pé', value: 'A pé' },
+            { label: 'Bicicleta', value: 'Bicicleta' }
+          ]}
+          style={pickerSelectStyles}
+          placeholder={{ label: 'Selecione o meio de transporte', value: '' }}
           value={inputs.mainTransport}
-          onChangeText={(value) => handleInputChange('mainTransport', value)}
         />
       </View>
 
       {/* Opção de combustível para Carro */}
       {inputs.mainTransport === 'Carro' && (
         <View style={styles.formGroup}>
-          <Text>Opção de combustível:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Combustível (Gasolina ou Diesel)"
+          <Text style={styles.questionsText}>Opção de combustível:</Text>
+          <RNPickerSelect
+            onValueChange={(value) => handleInputChange('transportType', value)}
+            items={[
+              { label: 'Gasolina', value: 'Gasolina' },
+              { label: 'Diesel', value: 'Diesel' }
+            ]}
+            style={pickerSelectStyles}
+            placeholder={{ label: 'Selecione o combustível', value: '' }}
             value={inputs.transportType}
-            onChangeText={(value) => handleInputChange('transportType', value)}
           />
         </View>
       )}
 
       {/* Quilômetros percorridos */}
       <View style={styles.formGroup}>
-        <Text>Quantos quilômetros você percorre semanalmente?</Text>
+        <Text style={styles.questionsText}>Quantos quilômetros você percorre semanalmente?</Text>
         <TextInput
           style={styles.input}
           keyboardType="numeric"
@@ -99,21 +129,23 @@ const Calculator: React.FC = () => {
         />
       </View>
 
-      {/* Consumo médio de combustível */}
-      <View style={styles.formGroup}>
-        <Text>Qual é o consumo médio de combustível do seu veículo? (Km/litro)</Text>
-        <TextInput
-          style={styles.input}
-          keyboardType="numeric"
-          placeholder="Consumo de combustível"
-          value={inputs.consumoCombustivel}
-          onChangeText={(value) => handleInputChange('consumoCombustivel', value)}
-        />
-      </View>
+      {/* Campo de Consumo de Combustível somente para Carro */}
+      {inputs.mainTransport === 'Carro' && (
+        <View style={styles.formGroup}>
+          <Text>Consumo de Combustível:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Consumo de Combustível"
+            value={inputs.consumoCombustivel}
+            onChangeText={(value) => handleInputChange('consumoCombustivel', value)}
+            keyboardType="numeric"
+          />
+        </View>
+      )}
 
       {/* Alimentação */}
       <View style={styles.formGroup}>
-        <Text>Qual é a sua dieta? (Vegetariana, vegana, onívora)</Text>
+        <Text  style={styles.questionsText}>Qual é a sua dieta? (Vegetariana, vegana, onívora)</Text>
         <TextInput
           style={styles.input}
           placeholder="Dieta"
@@ -124,7 +156,7 @@ const Calculator: React.FC = () => {
 
       {/* Quilos de carne vermelha */}
       <View style={styles.formGroup}>
-        <Text>Quantos quilos de carne vermelha você consome por mês?</Text>
+        <Text  style={styles.questionsText}>Quantos quilos de carne vermelha você consome por mês?</Text>
         <TextInput
           style={styles.input}
           keyboardType="numeric"
@@ -136,7 +168,7 @@ const Calculator: React.FC = () => {
 
       {/* Quilos de carne branca */}
       <View style={styles.formGroup}>
-        <Text>Quantos quilos de carne branca você consome por mês?</Text>
+        <Text style={styles.questionsText}>Quantos quilos de carne branca você consome por mês?</Text>
         <TextInput
           style={styles.input}
           keyboardType="numeric"
@@ -148,7 +180,7 @@ const Calculator: React.FC = () => {
 
       {/* Quilos de vegetais */}
       <View style={styles.formGroup}>
-        <Text>Quantos quilos de vegetais você consome por mês?</Text>
+        <Text style={styles.questionsText}>Quantos quilos de vegetais você consome por mês?</Text>
         <TextInput
           style={styles.input}
           keyboardType="numeric"
@@ -160,7 +192,7 @@ const Calculator: React.FC = () => {
 
       {/* Consumo de Energia */}
       <View style={styles.formGroup}>
-        <Text>Qual é a sua conta mensal de eletricidade? (Em kWh ou valor monetário)</Text>
+        <Text style={styles.questionsText}>Qual é a sua conta mensal de eletricidade? (Em kWh ou valor monetário)</Text>
         <TextInput
           style={styles.input}
           placeholder="Conta de eletricidade"
@@ -171,7 +203,7 @@ const Calculator: React.FC = () => {
 
       {/* Resíduos */}
       <View style={styles.formGroup}>
-        <Text>Quanto lixo você produz semanalmente? (kg)</Text>
+        <Text style={styles.questionsText}>Quanto lixo você produz semanalmente? (kg)</Text>
         <TextInput
           style={styles.input}
           keyboardType="numeric"
@@ -183,7 +215,7 @@ const Calculator: React.FC = () => {
 
       {/* Quantidade de plástico */}
       <View style={styles.formGroup}>
-        <Text>Qual é a quantidade de plástico que você descarta semanalmente? (Em kg)</Text>
+        <Text style={styles.questionsText}>Qual é a quantidade de plástico que você descarta semanalmente? (Em kg)</Text>
         <TextInput
           style={styles.input}
           keyboardType="numeric"
@@ -195,7 +227,7 @@ const Calculator: React.FC = () => {
 
       {/* Consumo de Produtos */}
       <View style={styles.formGroup}>
-        <Text>Quantas roupas novas você compra por ano?</Text>
+        <Text style={styles.questionsText}>Quantas roupas novas você compra por ano?</Text>
         <TextInput
           style={styles.input}
           keyboardType="numeric"
@@ -207,7 +239,7 @@ const Calculator: React.FC = () => {
 
       {/* Quantidade de gadgets */}
       <View style={styles.formGroup}>
-        <Text>Quantos produtos eletrônicos ou gadgets você compra por ano?</Text>
+        <Text style={styles.questionsText}>Quantos produtos eletrônicos ou gadgets você compra por ano?</Text>
         <TextInput
           style={styles.input}
           keyboardType="numeric"
@@ -224,15 +256,48 @@ const Calculator: React.FC = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Resultado */}
-      {result !== null && (
-        <View style={styles.resultContainer}>
-          <Text style={styles.resultText}>Emissão Total: {result.toFixed(2)} kg CO2/mês</Text>
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => {
+        setModalVisible(!modalVisible);
+      }}
+    >
+      <View style={styles.centeredView}>
+        <View style={styles.modalView}>
+          {result !== null && (
+            <>
+              <Text style={styles.modalText}>Emissão Total: {result.toFixed(2)} kg CO2/mês</Text>
+              <Text style={styles.modalText}>{resultMessage}</Text>
+            </>
+          )}
+          <TouchableOpacity
+            style={[styles.button, styles.buttonClose]}
+            onPress={() => setModalVisible(!modalVisible)}
+          >
+            <Text style={styles.textStyle}>Fechar</Text>
+          </TouchableOpacity>
         </View>
-      )}
+      </View>
+    </Modal>
+
     </ScrollView>
   );
 };
+
+const pickerSelectStyles = StyleSheet.create({
+   inputAndroid: {
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'gray',
+    borderRadius: 8,
+    color: 'black',
+    paddingRight: 30,
+  },
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -243,36 +308,40 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
     marginBottom: 20,
+    fontFamily: fontFamily.pbold,
   },
   formGroup: {
     marginBottom: 20,
     width: '100%',
+    fontFamily: fontFamily.pregular,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#8e22bb',
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
     width: '100%',
+    fontFamily: fontFamily.pmedium,
   },
   buttonContainer: {
     width: '100%',
     alignItems: 'center',
     marginBottom: 10,
+    fontFamily: fontFamily.pregular,
   },
   button: {
-    backgroundColor: '#007BFF',
+    backgroundColor: '#D3A9F4',
     padding: 10,
     borderRadius: 5,
     width: '50%',
     alignItems: 'center',
   },
   buttonText: {
-    color: '#fff',
+    color: '#000',
     fontSize: 16,
+    fontFamily: fontFamily.pbold,
   },
   resultContainer: {
     alignItems: 'center',
@@ -281,6 +350,48 @@ const styles = StyleSheet.create({
   resultText: {
     fontSize: 18,
     fontWeight: 'bold',
+    fontFamily: fontFamily.pbold,
+  },
+  questionsText: {
+    fontSize: 16,
+    fontFamily: fontFamily.pregular,
+    marginBottom: 20,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  buttonClose: {
+    backgroundColor: '#ab49cc',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  picker: {
+    fontFamily: fontFamily.plight,
   },
 });
 
