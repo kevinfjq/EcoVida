@@ -69,11 +69,11 @@ const Calculator: React.FC = () => {
 
     let message;
     if (totalEmission < 100) {
-      message = 'Parabéns, você emite pouco carbono!';
+      message = 'Parabéns, você emite pouco carbono! \n Continue ajudando o planeta!';
     } else if (totalEmission < 200) {
-      message = 'Você está na média, mas pode melhorar!';
+      message = 'Você está na média, mas pode melhorar! \n Confira algumas dicas sustentáveis.';
     } else {
-      message = 'Opa, você está emitindo muito carbono!';
+      message = 'Opa, você está emitindo muito carbono! \n Melhor confessar os pecados...';
     }
     setResultMessage(message);
     setModalVisible(true);
@@ -81,7 +81,7 @@ const Calculator: React.FC = () => {
   
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Perguntas</Text>
+      <Text style={styles.title}>Descubra Qual é a Sua Pegada de Carbono</Text>
       
       {/* Transporte */}
       <View style={styles.formGroup}>
@@ -156,7 +156,7 @@ const Calculator: React.FC = () => {
 
       {/* Quilos de carne vermelha */}
       <View style={styles.formGroup}>
-        <Text  style={styles.questionsText}>Quantos quilos de carne vermelha você consome por mês?</Text>
+        <Text  style={styles.questionsText}>Quantos quilos de carne vermelha você aproximadamente consome por mês?</Text>
         <TextInput
           style={styles.input}
           keyboardType="numeric"
@@ -168,7 +168,7 @@ const Calculator: React.FC = () => {
 
       {/* Quilos de carne branca */}
       <View style={styles.formGroup}>
-        <Text style={styles.questionsText}>Quantos quilos de carne branca você consome por mês?</Text>
+        <Text style={styles.questionsText}>Quantos quilos de carne branca você aproximadamente consome por mês?</Text>
         <TextInput
           style={styles.input}
           keyboardType="numeric"
@@ -180,7 +180,7 @@ const Calculator: React.FC = () => {
 
       {/* Quilos de vegetais */}
       <View style={styles.formGroup}>
-        <Text style={styles.questionsText}>Quantos quilos de vegetais você consome por mês?</Text>
+        <Text style={styles.questionsText}>Quantos quilos de vegetais você aproximadamente consome por mês?</Text>
         <TextInput
           style={styles.input}
           keyboardType="numeric"
@@ -192,10 +192,11 @@ const Calculator: React.FC = () => {
 
       {/* Consumo de Energia */}
       <View style={styles.formGroup}>
-        <Text style={styles.questionsText}>Qual é a sua conta mensal de eletricidade? (Em kWh ou valor monetário)</Text>
+        <Text style={styles.questionsText}>Quanto você costuma gastar de eletricidade? (Em kWh ou valor monetário)</Text>
         <TextInput
           style={styles.input}
-          placeholder="Conta de eletricidade"
+          keyboardType="numeric"
+          placeholder="Consumo de eletricidade"
           value={inputs.consumoEnergia}
           onChangeText={(value) => handleInputChange('consumoEnergia', value)}
         />
@@ -310,6 +311,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 20,
     fontFamily: fontFamily.pbold,
+    textAlign: 'center',
   },
   formGroup: {
     marginBottom: 20,
