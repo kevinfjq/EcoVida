@@ -7,6 +7,7 @@ import React from "react";
 import HeaderHome from "@/components/headerHome";
 import SliderHome from "@/components/sliderHome";
 import ArticlesHome from "@/components/articlesHome";
+import SustainabilityTipsScreen from "@/components/tipsHome";
 
 const Home: React.FC = () => {
   const navigation = useNavigation();
@@ -28,8 +29,10 @@ const Home: React.FC = () => {
           <SliderHome/>
         </View>
         <View>
-          {/*Artigos*/}
           <ArticlesHome/>
+        </View>
+        <View>
+          <SustainabilityTipsScreen/>
         </View>
         <Text>----</Text>
         <Link href={"/calculatorScreen"}>Ir para a calculadora de pegada de carbono</Link>
