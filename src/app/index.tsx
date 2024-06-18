@@ -50,7 +50,7 @@ export default function Index() {
     }
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        router.push('/(tabs)/home');
+        router.push('/home');
       }
     });
 
