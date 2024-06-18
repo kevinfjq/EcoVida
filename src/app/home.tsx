@@ -6,6 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
 import HeaderHome from "@/components/headerHome";
 import SliderHome from "@/components/sliderHome";
+import ArticlesHome from "@/components/articlesHome";
 
 const Home: React.FC = () => {
   const navigation = useNavigation();
@@ -26,7 +27,11 @@ const Home: React.FC = () => {
         <View>
           <SliderHome/>
         </View>
-        <Text>Home</Text>
+        <View>
+          {/*Artigos*/}
+          <ArticlesHome/>
+        </View>
+        <Text>----</Text>
         <Link href={"/calculatorScreen"}>Ir para a calculadora de pegada de carbono</Link>
       </View>
     </ScrollView>

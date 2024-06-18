@@ -28,6 +28,8 @@ const styles = StyleSheet.create ({
         backgroundColor: '#D3A9F4',
         borderBottomLeftRadius: 25,
         borderBottomRightRadius: 25,
+        borderColor: '#000',
+        borderWidth: 1.5,
     },
     userImage : {
         width: 45,
@@ -45,11 +47,15 @@ const styles = StyleSheet.create ({
         backgroundColor: '#fff',
         borderRadius: 8,
         width: '85%',
+        borderColor: '#000',
+        borderWidth: 1.5,
     },
     searchButton:{
         backgroundColor: '#fff',
         padding: 10,
         borderRadius: 8,
+        borderColor: '#000',
+        borderWidth: 1.5,
     },
     profileContainer:{
         display: 'flex',
