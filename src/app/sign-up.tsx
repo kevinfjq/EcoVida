@@ -8,12 +8,23 @@ import {Button} from "@/components/button";
 import {useState} from "react";
 import {FIREBASE_AUTH} from "@/firebaseConfig";
 import {createUserWithEmailAndPassword} from "@firebase/auth";
+import Toast from "react-native-toast-message";
+import * as Google from "expo-auth-session/providers/google";
 
 export default function SignUp() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    androidClientId: "989903719875-4eohpq60la1clbdhhp5qhb5i0cs53qv8.apps.googleusercontent.com",
+  });
+
+  async function googleLogin() {
+    await promptAsync();
+    router.replace("/")
+  }
 
   function signUp() {
     try{
@@ -21,13 +32,39 @@ export default function SignUp() {
       createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
         .then((userCredential) => {
           const user = userCredential.user;
-          router.back();
+          Toast.show({
+            type: 'success',
+            text1: 'Usuário cadastrado com sucesso',
+            visibilityTime: 2500
+          });
+          setLoading(false);
+          router.replace('/');
         })
         .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
+          const errorCode = "Falha no cadastro!";
+          let errorMessage;
+          if(error.code == "auth/credential-already-in-use" || error.code == "auth/email-already-in-use") {
+            errorMessage = "Email já cadastrado.";
+          }
+          else if(error.code == "auth/invalid-email"){
+            errorMessage = "Endereço de email inválido.";
+          }
+          else if(error.code == "auth/timeout"){
+            errorMessage = "Operação expirada.";
+          }
+          else if(error.code == "auth/internal-error" || error.code == "auth/invalid-auth-event" || error.code =="auth/no-auth-event"){
+            errorMessage = "Ocorreu um erro interno.";
+          }
+          else if(error.code == "auth/weak-password"){
+            errorMessage = "A senha deve ter 6 ou mais caracteres.";
+          }
           setLoading(false);
-          console.error(errorCode + ": " +errorMessage);
+          Toast.show({
+            type: 'error',
+            text1: error.code,
+            text2: errorMessage,
+          });
+
         })
     } catch (error){}
   }
@@ -59,7 +96,7 @@ export default function SignUp() {
       </Input>
       <Input>
         <MaterialCommunityIcons style={styles.icon} name={"key-outline"} size={28} color={colors.black.full} />
-        <Input.Field secureTextEntry={true} placeholder="Digite sua senha" onChangeText={setPassword}/>
+        <Input.Field passwordIcon={true} onTogglePasswordVisibility={() => setShowPassword(!showPassword)} showPassword={showPassword} secureTextEntry={!showPassword} placeholder="Digite sua senha" onChangeText={setPassword}/>
       </Input>
       <Button isLoading={loading} title="Cadastrar" onPress={signUp} color={colors.green.default}/>
       <Text style={{fontSize: 15, fontWeight: 'bold'}}>OU</Text>

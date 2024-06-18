@@ -5,7 +5,6 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -40,6 +39,7 @@
       "eas": {
         "projectId": "de7d0609-18b1-42a7-a63b-183713b02012"
       }
-    }
+    },
+    "scheme": "ecovida"
   }
 }

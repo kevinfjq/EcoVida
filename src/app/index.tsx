@@ -1,4 +1,4 @@
-import {Text, View, StyleSheet, Image, Alert} from "react-native";
+import {Text, View, StyleSheet, Image, Alert, Modal, TouchableOpacity} from "react-native";
 import {Input} from "@/components/input";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {colors} from "@/src/styles/colors";
@@ -7,50 +7,100 @@ import {fontFamily} from "@/src/styles/fontFamily";
 import {Button} from "@/components/button";
 import Svg, {Defs, LinearGradient, Path, Stop} from "react-native-svg";
 import {FIREBASE_AUTH} from "@/firebaseConfig";
-import {onAuthStateChanged, signInWithEmailAndPassword} from "@firebase/auth";
+import * as Google from "expo-auth-session/providers/google";
+import * as WebBrowser from "expo-web-browser";
+
+import {
+  GoogleAuthProvider,
+  onAuthStateChanged, sendPasswordResetEmail, signInWithCredential,
+  signInWithEmailAndPassword,
+} from "@firebase/auth";
 import {useEffect, useState} from "react";
+import Toast from "react-native-toast-message";
 
 export default function Index() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [loginAttempted, setLoginAttempted] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalEmail, setModalEmail] = useState('')
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    androidClientId: "989903719875-4eohpq60la1clbdhhp5qhb5i0cs53qv8.apps.googleusercontent.com",
+  });
   const auth = FIREBASE_AUTH;
+  async function sendEmail() {
+    await sendPasswordResetEmail(auth, modalEmail)
+      .then((result) => {
+        Toast.show({
+          type: 'success',
+          text1: 'Email enviado!'
+        });
+        setShowModal(false);
+      })
+  }
 
   useEffect(() => {
+    if(response?.type == 'success') {
+      const { id_token} =response.params
+      const credential = GoogleAuthProvider.credential(id_token);
+      signInWithCredential(auth, credential).then(() => {
+        unsubscribe();
+      });
+    }
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (loginAttempted) {
-        if (user) {
-          router.push("/home");
-        } else {
-          Alert.alert('Falha ao entrar', 'Usuário ou senha incorreto, Tente novamente!');
-        }
-        setLoginAttempted(false);
+      if (user) {
+        router.push('/(tabs)/home');
       }
     });
 
     return () => unsubscribe();
-  }, [auth, loginAttempted]);
+  }, [auth, router, response]);
+
+  async function googleLogin() {
+   await promptAsync();
+  }
 
   async function login() {
+    setLoading(true);
     try{
-      setLoginAttempted(true);
       await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          const user = userCredential.user;
-          console.log(user)
+          setLoading(false);
+          Toast.show({
+            type: 'success',
+            text1: 'Bem vindo(a)',
+            text2: 'Login feito com sucesso',
+            visibilityTime: 2500,
+          });
         })
         .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          setLoading(false);
-          setLoginAttempted(false);
-          console.error("Código: " + errorCode + ": mensagem:" +errorMessage);
-        })
-
+        const errorCode = "Erro ao acessar!";
+        let errorMessage;
+        if(error.code == "auth/invalid-email"){
+          errorMessage = "Endereço de email inválido.";
+        }
+        else if(error.code == "auth/invalid-credential" ){
+          errorMessage = "Endereço de email ou senha incorretos.";
+        }
+        else if(error.code == "auth/weak-password"){
+          errorMessage = "A senha deve ter 6 ou mais caracteres.";
+        }
+        else if(error.code == "auth/internal-error" || error.code == "auth/no-auth-event"){
+          errorMessage = "Ocorreu um erro interno.";
+        }
+        else if(error.code == "auth/timeout"){
+          errorMessage = "Operação expirada.";
+        }
+        setLoading(false);
+        Toast.show({
+          type: 'error',
+          text1: errorCode,
+          text2: errorMessage,
+        });
+      });
     } catch (error) {
-      setLoading(false);
-      setLoginAttempted(false);
+
     }
   }
 
@@ -58,6 +108,18 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
+      <Modal animationType="fade" transparent={true} visible={showModal} onRequestClose={() =>{setShowModal(!showModal)}}>
+        <View style={styles.container}>
+          <View style={{margin: 20, backgroundColor: 'white', borderRadius: 20, paddingVertical: 40, paddingHorizontal: 25, alignItems: 'center', justifyContent: 'space-around', shadowColor: '#000', shadowOffset: {width: 0, height: 2,}, shadowOpacity: 0.25, shadowRadius: 4, elevation: 5,}}>
+            {/*<Text></Text>*/}
+            <Input>
+              <MaterialCommunityIcons  name={"email-outline"} size={28} color={colors.black.full} />
+              <Input.Field  placeholder="Digite seu email" onChangeText={setModalEmail}/>
+            </Input>
+            <Button onPress={sendEmail} title={"Enviar email"} color={colors.green.default}/>
+          </View>
+        </View>
+      </Modal>
       <View style={styles.header}>
         <Svg height="270" width="388" viewBox="0 0 340 160">
           <Path
@@ -80,12 +142,13 @@ export default function Index() {
       </Input>
       <Input>
         <MaterialCommunityIcons style={styles.icon} name={"key-outline"} size={28} color={colors.black.full} />
-        <Input.Field secureTextEntry={true} placeholder="Digite sua senha" onChangeText={setPassword}/>
+        <Input.Field passwordIcon={true} onTogglePasswordVisibility={() => setShowPassword(!showPassword)} showPassword={showPassword} secureTextEntry={!showPassword} placeholder="Digite sua senha" onChangeText={setPassword}/>
       </Input>
-      <Link style={styles.link} href="/forgot-password">Esqueceu a senha?</Link>
+      <TouchableOpacity style={styles.link} onPress={() => setShowModal(true)}>
+        <Text>Esqueceu a senha?</Text></TouchableOpacity>
       <Button isLoading={loading} title="Entrar" onPress={login} color={colors.green.default}/>
       <Text style={{fontSize: 15, fontWeight: 'bold'}}>OU</Text>
-      <Button isLoading={loading} icon={true} title="Entrar com o Google" color={colors.purple.default}/>
+      <Button isLoading={loading} icon={true} onPress={googleLogin} title="Entrar com o Google" color={colors.purple.default}/>
       <Text style={{fontSize: 14, marginTop: 12}}>Não possui cadastro? <Link style={styles.signUp} href="/sign-up" >Cadastre-se</Link></Text>
     </View>
   );
@@ -123,7 +186,6 @@ const styles = StyleSheet.create({
     color: colors.gray["300"],
     alignSelf: "flex-end",
     padding: 10,
-    paddingTop: 4,
     paddingRight: 20,
   },
   signUp: {
