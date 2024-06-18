@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
       textAlign: 'center',
     },
     header: {
-      backgroundColor: '#b5e48c',
+      backgroundColor: '#c1fba4',
       padding: 10,
       borderWidth: 5,
       borderColor: '#D3A9F4',

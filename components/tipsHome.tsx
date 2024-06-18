@@ -7,6 +7,10 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#fff',
+    marginTop:30,
+    marginBottom:20,
+    borderColor: '#b5e48c',
+    borderWidth: 5,
   },
   title: {
     fontSize: 20,
@@ -57,16 +61,11 @@ const allTips = [
     "Não utilize secadora para secar as roupas lavadas, opte por secar naturalmente",
     "Descarte o lixo eletrônico, como pilhas, baterias, celulares e computadores antigos, em ecopontos específicos para esse fim para não contaminar o solo",
     "Elimine vazamentos. Evita o desperdício de água e reduz o valor da conta de água no fim do mês",
- 
-"Não deixe aparelhos eletroeletrônicos em standy by. Economiza em média 12% do consumo doméstico de energia elétrica",
- 
-"Diminua custos de limpeza, adotando produtos biodegradáveis e receitas caseiras",
- 
-"Transforme coisas velhas em novas com um pouco de criatividade e materiais que tem em casa",
- 
-"Em curtas distâncias deixe o carro na garagem e faça uma caminhada, além de evitar a emissão de gases poluentes, faz bem à saúde",
- 
-"Andar de bicicleta também gasta calorias e poupa a natureza",
+    "Não deixe aparelhos eletroeletrônicos em standy by. Economiza em média 12% do consumo doméstico de energia elétrica",
+    "Diminua custos de limpeza, adotando produtos biodegradáveis e receitas caseiras",
+    "Transforme coisas velhas em novas com um pouco de criatividade e materiais que tem em casa",
+    "Em curtas distâncias deixe o carro na garagem e faça uma caminhada, além de evitar a emissão de gases poluentes, faz bem à saúde",
+    "Andar de bicicleta também gasta calorias e poupa a natureza",
 ];
 
 const getRandomTips = (allTips: string[], count: number) => {

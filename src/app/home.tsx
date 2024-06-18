@@ -29,10 +29,13 @@ const Home: React.FC = () => {
           <SliderHome/>
         </View>
         <View>
-          <ArticlesHome/>
+          <ScrollView>
+            <SustainabilityTipsScreen/>
+            <ArticlesHome/>
+          </ScrollView>
         </View>
         <View>
-          <SustainabilityTipsScreen/>
+          
         </View>
         <Text>----</Text>
         <Link href={"/calculatorScreen"}>Ir para a calculadora de pegada de carbono</Link>
