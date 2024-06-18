@@ -22,6 +22,8 @@ const styles = StyleSheet.create ({
         backgroundColor: '#D3A9F4',
         borderBottomLeftRadius: 25,
         borderBottomRightRadius: 25,
+        borderColor: '#000',
+        borderWidth: 1.5,
     },
     userImage : {
         width: 45,
