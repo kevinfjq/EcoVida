@@ -18,7 +18,7 @@ export default function HeaderCalculator() {
 const styles = StyleSheet.create ({
     conteiner:{
         padding: 20,
-        paddingTop: 55,
+        paddingTop: 40,
         backgroundColor: '#D3A9F4',
         borderBottomLeftRadius: 25,
         borderBottomRightRadius: 25,
