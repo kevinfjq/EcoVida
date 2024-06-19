@@ -1,23 +1,75 @@
-import React from "react";
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image } from "react-native";
+import React , {useState}from "react";
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, Modal, Linking } from "react-native";
 import { fontFamily } from "@/src/styles/fontFamily";
 
+const transparent = 'rgba(0,0,0,0.5)';
 export default function Product(){
-    
-    function filterDesc(desc: any){
+
+    const [selectedProduct, setSelectedProduct] = useState<any>(null); // Estado para armazenar o produto selecionado
+    const [productUrl, setProductUrl] = useState<string>(''); // Estado para armazenar a URL do produto
+
+   // Função para renderizar o conteúdo do modal
+   function renderModal() {
+    if (!selectedProduct) return null; // Não renderiza o modal se nenhum produto estiver selecionado
+
+    // Define a URL do produto selecionado apenas uma vez
+    const url = selectedProduct.url;
+    if (url !== productUrl) {
+        setProductUrl(url);
+    }
+
+        return (
+            <Modal visible={true} animationType="slide" transparent={true}>
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Image style={styles.imageModal} source={selectedProduct.image} />
+                        <Text style={styles.modalTitle}>{selectedProduct.name}</Text>
+                        <Text style={styles.modalPrice}>{selectedProduct.price}</Text>
+                        <TouchableOpacity style={styles.accessButton} onPress={handleAccessButtonPress}>
+                            <Text style={styles.accessText}>Acessar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.closeButton} onPress={() => handleCloseModal()}>
+                            <Text style={styles.closeText}>Fechar</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+        );
+    }
+
+   function handleAccessButtonPress() {
+    if (productUrl) {
+        Linking.openURL(productUrl);
+    }
+}
+
+
+function handleCloseModal() {
+    setSelectedProduct(null);
+    setProductUrl('');
+}
+
+    function filterDesc(desc: string){
         if(desc.length < 30 ){
             return desc;
         }
         return `${desc.substring(0, 25)}...`;
-    }
+    } 
+
     
     return(
         <ScrollView contentContainerStyle={styles.container}>
+            
             {/* Ecobags */}
             <Text style={styles.title}> EcoBags </Text>
             <View style={styles.productGrid}>
                 {/* produtos */}
-                <TouchableOpacity style={styles.containerT}>
+                <TouchableOpacity style={styles.containerT} onPress={() => setSelectedProduct({
+                    image: require('../assets/images/products/ecobag1.jpg'),
+                    name: 'ECOBAG DE ALGODÃO RECICLADO: SEJA PARTE DA SOLUÇÃO - TAM. GRANDE',
+                    price: 'R$ 45,00',
+                    url: 'https://www.cantoeco.com.br/ecobag-de-algodao-cru-eu-cuido-do-oceano',
+                })}>
                     <Image style={styles.imageProduct} source={require('../assets/images/products/ecobag1.jpg')}/>
                     <Text style={styles.textProducts}>{filterDesc('ECOBAG DE ALGODÃO RECICLADO: SEJA PARTE DA SOLUÇÃO - TAM. GRANDE')}</Text>
                     <View> 
@@ -111,6 +163,7 @@ export default function Product(){
                         <Text style={styles.textPreco}> R$ R$ 25,90 </Text>
                     </View>
                 </TouchableOpacity>
+                {renderModal()}
             </View>
         </ScrollView>
     );
@@ -134,33 +187,89 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginBottom: 10,
         textAlign: 'left',
-        fontFamily: fontFamily.pmedium,
         alignSelf: 'stretch',
     },
-    imageProduct:{
+    imageProduct: {
         width: 145,
         height: 145,
         borderRadius: 5,
         borderWidth: 1,
         borderColor: '#000'
-      },
-      textProducts:{
-        fontFamily: fontFamily.pregular,
+    },
+    textProducts: {
         fontSize: 14,
         paddingTop: 10,
-        textAlign:'center',
-      },
-      textPreco:{
-        fontFamily: fontFamily.pmedium,
+        textAlign: 'center',
+    },
+    textPreco: {
         fontSize: 16,
-      },
-      productGrid: {
+    },
+    productGrid: {
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
     },
-    safeContainer: {
+    modalContainer: {
         flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: transparent,
     },
-}
-)
+    modalContent: {
+        backgroundColor: 'white',
+        borderRadius: 10,
+        padding: 20,
+        alignItems: 'center',
+        elevation: 5,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+    },
+    imageModal: {
+        width: 150,
+        height: 150,
+        borderRadius: 10,
+        marginBottom: 10,
+    },
+    modalTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginBottom: 5,
+    },
+    modalPrice: {
+        fontSize: 16,
+        marginBottom: 10,
+    },
+    accessButton: {
+        marginTop: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        backgroundColor: '#b5e48c',
+        borderRadius: 5,
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: '#000'
+    },
+    accessText: {
+        fontSize: 14,
+        fontFamily: fontFamily.pmedium
+    },
+    closeButton: {
+        marginTop: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        backgroundColor: '#ab49cc',
+        borderRadius: 5,
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: '#000'
+    },
+    closeText: {
+        color: 'white',
+        fontSize: 12,
+        fontFamily: fontFamily.pregular
+    },
+    
+});
