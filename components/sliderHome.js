@@ -39,7 +39,7 @@ const SliderHome = () => {
     const DATA = [
         {
             id: "01",
-            image: require('../assets/images/slides/agua.jpg'),   
+            image: require('../assets/images/slides/genericSlide3.jpg'),   
         },
         {
             id: "02",
@@ -47,18 +47,22 @@ const SliderHome = () => {
         },
         {
             id: "03",
-            image: require('../assets/images/slides/borboleta.jpg'),
+            image: require('../assets/images/slides/genericSlide1.jpg'),
         },
         {
             id: "04",
-            image: require('../assets/images/slides/sol.jpg'),
+            image: require('../assets/images/slides/genericSlide2.jpg'),
+        },
+		{
+            id: "05",
+            image: require('../assets/images/slides/borboleta.jpg'),
         }
     ];
 
     const renderItem = ({item, index}) =>{
         return(
             <View>
-                <Image source={item.image} style={{height: 200, width: screenWidth, borderColor: '#D3A9F4', borderWidth: 5}}/>
+                <Image source={item.image} style={{height: 200, width: screenWidth, borderColor: '#D3A9F4', borderWidth: 5, borderRadius: 30}}/>
             </View>
         );
     };
