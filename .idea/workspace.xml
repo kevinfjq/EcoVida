@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5424c07b-9798-4048-b42c-795d2899bfd6" name="Changes" comment="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;package-lock.json&#10;#&#9;package.json&#10;#&#9;src/app/_layout.tsx&#10;#&#9;src/app/home.tsx">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/headerCalculator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/headerCalculator.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/headerHome.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/headerHome.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/sliderHome.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/sliderHome.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/firebaseConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/firebaseConfig.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/sign-up.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/sign-up.tsx" afterDir="false" />
-    </list>
+    <list default="true" id="5424c07b-9798-4048-b42c-795d2899bfd6" name="Changes" comment="feat: configure firestore, save user to database" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -85,6 +76,7 @@
       <workItem from="1718198976527" duration="33756000" />
       <workItem from="1718393058410" duration="47618000" />
       <workItem from="1718765976118" duration="6000" />
+      <workItem from="1718817530153" duration="585000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -142,7 +134,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718731995964</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="feat: configure firestore, save user to database">
+      <option name="closed" value="true" />
+      <created>1718818114977</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1718818114977</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -156,6 +156,7 @@
     <MESSAGE value="feat: add firebase config, add authentication with email and password, set up EAS for android bundle" />
     <MESSAGE value="feat: add google auth, add forgot password function, personalized error messages, add hide and show password toggle" />
     <MESSAGE value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;package-lock.json&#10;#&#9;package.json&#10;#&#9;src/app/_layout.tsx&#10;#&#9;src/app/home.tsx" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;package-lock.json&#10;#&#9;package.json&#10;#&#9;src/app/_layout.tsx&#10;#&#9;src/app/home.tsx" />
+    <MESSAGE value="feat: configure firestore, save user to database" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: configure firestore, save user to database" />
   </component>
 </project>

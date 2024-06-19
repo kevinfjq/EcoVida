@@ -10,7 +10,7 @@ import {FIREBASE_AUTH, db} from "@/firebaseConfig";
 import {createUserWithEmailAndPassword, updateProfile} from "@firebase/auth";
 import Toast from "react-native-toast-message";
 import * as Google from "expo-auth-session/providers/google";
-import {collection, doc, getDoc, setDoc, Timestamp} from "@firebase/firestore";
+import { doc, getDoc, setDoc, Timestamp} from "@firebase/firestore";
 
 export default function SignUp() {
   const [username, setUsername] = useState('');

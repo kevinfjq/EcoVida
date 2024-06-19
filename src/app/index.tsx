@@ -1,14 +1,13 @@
-import {Text, View, StyleSheet, Image, Alert, Modal, TouchableOpacity} from "react-native";
+import {Text, View, StyleSheet, Image, Modal, TouchableOpacity} from "react-native";
 import {Input} from "@/components/input";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {colors} from "@/src/styles/colors";
-import {Link, Redirect, router} from "expo-router";
+import {Link, router} from "expo-router";
 import {fontFamily} from "@/src/styles/fontFamily";
 import {Button} from "@/components/button";
 import Svg, {Defs, LinearGradient, Path, Stop} from "react-native-svg";
 import {db, FIREBASE_AUTH} from "@/firebaseConfig";
 import * as Google from "expo-auth-session/providers/google";
-import * as WebBrowser from "expo-web-browser";
 
 import {
   GoogleAuthProvider,

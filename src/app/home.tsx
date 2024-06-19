@@ -39,6 +39,8 @@ const Home: React.FC = () => {
         </View>
         <Text>----</Text>
         <Link href={"/calculatorScreen"}>Ir para a calculadora de pegada de carbono</Link>
+        <Text>----</Text>
+        <Link href={"/productScreen"}>Ir para a página de produtos</Link>
       </View>
     </ScrollView>
     

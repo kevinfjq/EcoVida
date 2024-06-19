@@ -12,10 +12,11 @@ const styles = StyleSheet.create({
       textAlign: 'center',
     },
     header: {
-      backgroundColor: '#c1fba4',
+      backgroundColor: '#dde7c7',
       padding: 10,
       borderWidth: 5,
       borderColor: '#D3A9F4',
+      marginBottom:20,
     },
     headerText: {
       fontSize: 16,

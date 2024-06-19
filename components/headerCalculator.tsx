@@ -1,6 +1,6 @@
 import { fontFamily } from "@/src/styles/fontFamily";
 import React from "react";
-import { Text, View, Image, StyleSheet, TextInput } from "react-native";
+import { Text, View, Image, StyleSheet } from "react-native";
 import {FIREBASE_AUTH} from "@/firebaseConfig";
 
 export default function HeaderCalculator() {
