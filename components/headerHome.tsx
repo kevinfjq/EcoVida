@@ -2,6 +2,7 @@ import { fontFamily } from "@/src/styles/fontFamily";
 import React from "react";
 import { Text, View, Image, StyleSheet, TextInput } from "react-native";
 import { FontAwesome } from '@expo/vector-icons';
+import {FIREBASE_AUTH} from "@/firebaseConfig";
 
 export default function HeaderHome() {
     return(
@@ -10,7 +11,7 @@ export default function HeaderHome() {
                 <Image source={require("@/assets/images/userImageTest.jpg")} style={styles.userImage}/>
             <View>
                 <Text style={styles.textStyle}>Bem-vindo(a),</Text>
-                <Text style={styles.textStyle}>*username*</Text>
+                <Text style={styles.textStyle}>{FIREBASE_AUTH.currentUser? FIREBASE_AUTH.currentUser.displayName: "username"}</Text>
             </View>
             </View>
             <View style={styles.searchBarContainer}>

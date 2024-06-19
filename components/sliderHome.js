@@ -66,11 +66,9 @@ const SliderHome = () => {
     const handleScroll = (event) => {
 		
 		const scrollPosition = event.nativeEvent.contentOffset.x;
-		console.log({ scrollPosition });
 
 		const index = scrollPosition / screenWidth;
 
-		console.log({ index });
 		setActiveIndex(index);
 	};
 

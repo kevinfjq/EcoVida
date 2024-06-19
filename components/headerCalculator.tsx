@@ -1,6 +1,7 @@
 import { fontFamily } from "@/src/styles/fontFamily";
 import React from "react";
 import { Text, View, Image, StyleSheet, TextInput } from "react-native";
+import {FIREBASE_AUTH} from "@/firebaseConfig";
 
 export default function HeaderCalculator() {
     return(
@@ -8,7 +9,7 @@ export default function HeaderCalculator() {
             <View style={styles.profileContainer}>
                 <Image source={require("@/assets/images/userImageTest.jpg")} style={styles.userImage}/>
             <View>
-                <Text style={styles.textStyle}>*username*</Text>
+                <Text style={styles.textStyle}>{FIREBASE_AUTH.currentUser? FIREBASE_AUTH.currentUser.displayName: "username"}</Text>
             </View>
             </View>
         </View>

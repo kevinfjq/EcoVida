@@ -6,7 +6,7 @@ import {Link, Redirect, router} from "expo-router";
 import {fontFamily} from "@/src/styles/fontFamily";
 import {Button} from "@/components/button";
 import Svg, {Defs, LinearGradient, Path, Stop} from "react-native-svg";
-import {FIREBASE_AUTH} from "@/firebaseConfig";
+import {db, FIREBASE_AUTH} from "@/firebaseConfig";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 
@@ -17,6 +17,7 @@ import {
 } from "@firebase/auth";
 import {useEffect, useState} from "react";
 import Toast from "react-native-toast-message";
+import {doc, getDoc, setDoc, Timestamp} from "@firebase/firestore";
 
 export default function Index() {
   const [email, setEmail] = useState('');
@@ -44,7 +45,18 @@ export default function Index() {
     if(response?.type == 'success') {
       const { id_token} =response.params
       const credential = GoogleAuthProvider.credential(id_token);
-      signInWithCredential(auth, credential).then(() => {
+      signInWithCredential(auth, credential).then((user) => {
+        const dbUser =  getDoc(doc(db, "users", user.user.uid)).then((dbUser) => {
+          if(!dbUser.exists()) {
+            setDoc(doc(db, "users", user.user.email?user.user.email:user.user.uid), {
+              id: user.user.uid,
+              username: user.user.displayName,
+              email: user.user.email,
+              createdAt: Timestamp.now()
+            });
+          }
+        });
+
         unsubscribe();
       });
     }

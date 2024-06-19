@@ -6,10 +6,11 @@ import {colors} from "@/src/styles/colors";
 import {Link, router} from "expo-router";
 import {Button} from "@/components/button";
 import {useState} from "react";
-import {FIREBASE_AUTH} from "@/firebaseConfig";
-import {createUserWithEmailAndPassword} from "@firebase/auth";
+import {FIREBASE_AUTH, db} from "@/firebaseConfig";
+import {createUserWithEmailAndPassword, updateProfile} from "@firebase/auth";
 import Toast from "react-native-toast-message";
 import * as Google from "expo-auth-session/providers/google";
+import {collection, doc, getDoc, setDoc, Timestamp} from "@firebase/firestore";
 
 export default function SignUp() {
   const [username, setUsername] = useState('');
@@ -26,19 +27,31 @@ export default function SignUp() {
     router.replace("/")
   }
 
-  function signUp() {
+  async function signUp() {
     try{
       setLoading(true);
-      createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
+      const dbUser = await getDoc(doc(db, "users", email));
+      await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
         .then((userCredential) => {
           const user = userCredential.user;
-          Toast.show({
-            type: 'success',
-            text1: 'Usuário cadastrado com sucesso',
-            visibilityTime: 2500
-          });
-          setLoading(false);
-          router.replace('/');
+          updateProfile(user, {displayName: username})
+            .then((userCredential) => {
+              Toast.show({
+                type: 'success',
+                text1: 'Usuário cadastrado com sucesso',
+                visibilityTime: 2500
+              });
+              if(!dbUser.exists()) {
+                setDoc(doc(db, "users", user.email?user.email: user.uid), {
+                  id: user.uid,
+                  username: username,
+                  email: email,
+                  createdAt: Timestamp.now()
+                });
+              }
+              setLoading(false);
+              router.replace('/');
+            });
         })
         .catch((error) => {
           const errorCode = "Falha no cadastro!";
@@ -61,7 +74,7 @@ export default function SignUp() {
           setLoading(false);
           Toast.show({
             type: 'error',
-            text1: error.code,
+            text1: errorCode,
             text2: errorMessage,
           });
 
@@ -100,7 +113,7 @@ export default function SignUp() {
       </Input>
       <Button isLoading={loading} title="Cadastrar" onPress={signUp} color={colors.green.default}/>
       <Text style={{fontSize: 15, fontWeight: 'bold'}}>OU</Text>
-      <Button isLoading={loading} icon={true} title="Entrar com o Google" color={colors.purple.default}/>
+      <Button isLoading={loading} icon={true} onPress={googleLogin} title="Entrar com o Google" color={colors.purple.default}/>
       <Text style={{fontSize: 14, marginTop: 12}}>Já possui conta? <Link style={styles.link} href="/" >Faça o login</Link></Text>
     </View>
   );
