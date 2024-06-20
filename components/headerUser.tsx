@@ -5,14 +5,13 @@ import {FIREBASE_AUTH} from "@/firebaseConfig";
 import {colors} from "@/src/styles/colors";
 
 
-export default function HeaderCalculator() {
-    const user = FIREBASE_AUTH.currentUser;
+export default function HeaderUser() {
     return(
         <View style={styles.conteiner}>
             <View style={styles.profileContainer}>
                 <Image source={require("@/assets/images/userImageTest.jpg")} style={styles.userImage}/>
             <View>
-                <Text style={styles.textStyle}>{user? user.displayName: "username"}</Text>
+                <Text style={styles.textStyle}>{FIREBASE_AUTH.currentUser? FIREBASE_AUTH.currentUser.displayName: "username"}</Text>
             </View>
             </View>
         </View>

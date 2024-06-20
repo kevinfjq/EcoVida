@@ -1,4 +1,4 @@
-import {View, Text, ScrollView} from "react-native";
+import {View, Text, ScrollView, StyleSheet, TouchableOpacity} from "react-native";
 import {Link, useNavigation} from "expo-router";
 import {useEffect} from "react";
 import Routes from "../../routes";
@@ -8,6 +8,7 @@ import HeaderHome from "@/components/headerHome";
 import SliderHome from "@/components/sliderHome";
 import ArticlesHome from "@/components/articlesHome";
 import SustainabilityTipsScreen from "@/components/tipsHome";
+import { fontFamily } from "../../styles/fontFamily";
 
 const Home: React.FC = () => {
   const navigation = useNavigation();
@@ -19,31 +20,56 @@ const Home: React.FC = () => {
     });
   }, []);
 
-  return(
+  return (
     <ScrollView>
       <View>
         <View>
-          <HeaderHome/>
+          <HeaderHome />
         </View>
         <View>
-          <SliderHome/>
+          <SliderHome />
         </View>
         <View>
           <ScrollView>
-            <SustainabilityTipsScreen/>
-            <ArticlesHome/>
+            <SustainabilityTipsScreen />
+            <ArticlesHome />
           </ScrollView>
-        </View>
-        <View>
-          
         </View>
       </View>
     </ScrollView>
-    
-    /*<NavigationContainer>
-      <Routes/>
-    </NavigationContainer>*/
   );
-}
+};
+
+const styles = StyleSheet.create({
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 20,
+    paddingHorizontal: 5,
+  },
+  button: {
+    flex: 1,
+    backgroundColor: '#D3A9F4',
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 30,
+    borderWidth: 1.5,
+    borderColor: '#000',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
+    marginHorizontal: 8,
+    textAlign: 'center',
+    fontFamily: fontFamily.pmedium,
+  },
+  buttonText: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+});
 
 export default Home;
