@@ -5,9 +5,9 @@ import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {colors} from "@/src/styles/colors";
 import {Link, router} from "expo-router";
 import {Button} from "@/components/button";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {FIREBASE_AUTH, db} from "@/firebaseConfig";
-import {createUserWithEmailAndPassword, updateProfile} from "@firebase/auth";
+import {createUserWithEmailAndPassword, GoogleAuthProvider, signInWithCredential, updateProfile} from "@firebase/auth";
 import Toast from "react-native-toast-message";
 import * as Google from "expo-auth-session/providers/google";
 import { doc, getDoc, setDoc, Timestamp} from "@firebase/firestore";
@@ -21,10 +21,33 @@ export default function SignUp() {
   const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId: "989903719875-4eohpq60la1clbdhhp5qhb5i0cs53qv8.apps.googleusercontent.com",
   });
+  const auth = FIREBASE_AUTH;
+
+  useEffect(() => {
+
+      if(response?.type == 'success') {
+        const { id_token} =response.params
+        const credential = GoogleAuthProvider.credential(id_token);
+         signInWithCredential(auth, credential).then((user) => {
+          const dbUser =  getDoc(doc(db, "users", user.user.email?user.user.email:user.user.uid)).then((dbUser) => {
+            if(!dbUser.exists()) {
+              setDoc(doc(db, "users", user.user.email?user.user.email:user.user.uid), {
+                id: user.user.uid,
+                username: user.user.displayName,
+                email: user.user.email,
+                createdAt: Timestamp.now()
+              });
+            }
+            router.replace("/");
+          });
+        });
+      }
+
+
+  }, [response]);
 
   async function googleLogin() {
     await promptAsync();
-    router.replace("/")
   }
 
   async function signUp() {

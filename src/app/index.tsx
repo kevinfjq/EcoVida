@@ -45,7 +45,7 @@ export default function Index() {
       const { id_token} =response.params
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential).then((user) => {
-        const dbUser =  getDoc(doc(db, "users", user.user.uid)).then((dbUser) => {
+        const dbUser =  getDoc(doc(db, "users", user.user.email?user.user.email:user.user.uid)).then((dbUser) => {
           if(!dbUser.exists()) {
             setDoc(doc(db, "users", user.user.email?user.user.email:user.user.uid), {
               id: user.user.uid,

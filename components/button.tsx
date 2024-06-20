@@ -8,11 +8,12 @@ type Props = TouchableOpacityProps & {
   isLoading?: boolean,
   color: string,
   icon?: boolean
+  styleString?: undefined
 }
 
-export function Button({title, isLoading = false, color, icon, ...rest}: Props) {
+export function Button({title, isLoading = false, color, icon,styleString,  ...rest}: Props) {
   return(
-    <TouchableOpacity disabled={isLoading} activeOpacity={0.7} {...rest}  style={[styles.touchable, {backgroundColor: color}]}>
+    <TouchableOpacity disabled={isLoading} activeOpacity={0.7} {...rest}  style={[styles.touchable, {backgroundColor: color}, styleString]}>
       {
         isLoading ? (<ActivityIndicator size="large" color={colors.gray["300"]} />)
           : icon? (

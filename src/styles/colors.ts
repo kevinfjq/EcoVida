@@ -41,6 +41,7 @@ export const colors = {
     200: '#451B7D',
   },
   gray: {
+    default: "rgb(246,245,241)",
     100: "#D9D9D9",
     200: "#696767",
     300: "#534F4F",

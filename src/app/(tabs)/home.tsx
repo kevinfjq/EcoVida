@@ -1,52 +1,49 @@
-import {View, Text} from "react-native";
-import {router, useNavigation} from "expo-router";
+import {View, Text, ScrollView} from "react-native";
+import {Link, useNavigation} from "expo-router";
 import {useEffect} from "react";
-import {FIREBASE_AUTH} from "@/firebaseConfig";
-import {Button} from "@/components/button";
-import {colors} from "@/src/styles/colors";
-import {onAuthStateChanged, signOut} from "@firebase/auth";
-import Toast from "react-native-toast-message";
+import Routes from "../../routes";
+import { NavigationContainer } from "@react-navigation/native";
+import React from "react";
+import HeaderHome from "@/components/headerHome";
+import SliderHome from "@/components/sliderHome";
+import ArticlesHome from "@/components/articlesHome";
+import SustainabilityTipsScreen from "@/components/tipsHome";
 
-export default function Home() {
+const Home: React.FC = () => {
   const navigation = useNavigation();
-  const auth = FIREBASE_AUTH;
+
   useEffect(() => {
     navigation.addListener('beforeRemove', (e) => {
       e.preventDefault();
-      // console.log("onback");
+      console.log("onback");
     });
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        // router.redirect('/');
-      }
-    });
-
-    return () => unsubscribe();
-  }, [auth]);
-
-  async function logout() {
-    await signOut(auth)
-      .then(() => {
-        Toast.show({
-          type: 'success',
-          text1: 'Até a próxima',
-        })
-      })
-      .catch((error) => {
-      Toast.show({
-        type: 'error',
-        text1: error.code,
-        text2: error.message,
-      });
-    });
-  }
-
-
+  }, []);
 
   return(
-    <View>
-      <Text>{auth.currentUser?.email}</Text>
-      <Button title={"Sair"} onPress={logout} color={colors.green.default}/>
-    </View>
-  )
+    <ScrollView>
+      <View>
+        <View>
+          <HeaderHome/>
+        </View>
+        <View>
+          <SliderHome/>
+        </View>
+        <View>
+          <ScrollView>
+            <SustainabilityTipsScreen/>
+            <ArticlesHome/>
+          </ScrollView>
+        </View>
+        <View>
+          
+        </View>
+      </View>
+    </ScrollView>
+    
+    /*<NavigationContainer>
+      <Routes/>
+    </NavigationContainer>*/
+  );
 }
+
+export default Home;

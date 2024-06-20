@@ -1,7 +1,7 @@
 // src/screens/HomeScreen.tsx
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
-import Calculator from '../../components/calculator';
+import Calculator from '@/components/calculator';
 import { fontFamily } from '@/src/styles/fontFamily';
 import HeaderCalculator from '@/components/headerCalculator';
 

@@ -2,6 +2,8 @@ import { fontFamily } from '@/src/styles/fontFamily';
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView, TouchableOpacity, Modal } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
+import {colors} from "@/src/styles/colors";
+
 
 const Calculator: React.FC = () => {
   const [inputs, setInputs] = useState({
@@ -293,15 +295,16 @@ const pickerSelectStyles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 8,
     borderWidth: 0.5,
-    borderColor: 'gray',
+    borderColor: colors.green.default,
     borderRadius: 8,
-    color: 'black',
+    color: colors.black.full,
     paddingRight: 30,
   },
 });
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: colors.gray.default,
     flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'center',
@@ -314,13 +317,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   formGroup: {
+    backgroundColor: colors.white.full,
     marginBottom: 20,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 15,
     width: '100%',
     fontFamily: fontFamily.pregular,
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#8e22bb',
+    borderWidth: 0.8,
+    borderColor: colors.purple["100"],
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
@@ -336,11 +343,11 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#D3A9F4',
     padding: 10,
-    borderRadius: 5,
-    width: '50%',
+    borderRadius: 10,
+    width: '80%',
     alignItems: 'center',
     borderColor: '#000',
-    borderWidth: 1.5,
+    borderWidth: 1.2,
   },
   buttonText: {
     color: '#000',

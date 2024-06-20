@@ -34,9 +34,7 @@ export default function RootLayout() {
       <Stack>
         <Stack.Screen options={{headerShown: false}} name="index" />
         <Stack.Screen options={{headerShown: false}} name="sign-up" />
-        <Stack.Screen options={{headerShown: false}} name="calculatorScreen" />
-        <Stack.Screen options={{headerShown: false}} name="home" />
-        <Stack.Screen options={{headerShown: false}} name="productScreen" />
+        <Stack.Screen options={{headerShown: false}} name="(tabs)" />
       </Stack>
       <Toast />
     </>
