@@ -37,6 +37,7 @@ export default function RootLayout() {
         <Stack.Screen options={{headerShown: false}} name="calculatorScreen" />
         <Stack.Screen options={{headerShown: false}} name="home" />
         <Stack.Screen options={{headerShown: false}} name="productScreen" />
+        <Stack.Screen options={{headerShown: false}} name="userScreen" />
       </Stack>
       <Toast />
     </>

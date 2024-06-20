@@ -8,7 +8,6 @@ import HeaderHome from "@/components/headerHome";
 import SliderHome from "@/components/sliderHome";
 import ArticlesHome from "@/components/articlesHome";
 import SustainabilityTipsScreen from "@/components/tipsHome";
-import ProductScreen from "./productScreen";
 import { fontFamily } from "../styles/fontFamily";
 
 const Home: React.FC = () => {
@@ -43,6 +42,9 @@ const Home: React.FC = () => {
           <Link href="/productScreen" style={styles.button}>
             <Text style={styles.buttonText}>Produtos</Text>
           </Link>
+          <Link href="/userScreen" style={styles.button}>
+            <Text style={styles.buttonText}>Perfil</Text>
+          </Link>
         </View>
       </View>
     </ScrollView>
@@ -55,13 +57,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginVertical: 20,
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
   },
   button: {
     flex: 1,
     backgroundColor: '#D3A9F4',
-    paddingVertical: 15,
-    paddingHorizontal: 15,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
     borderRadius: 30,
     borderWidth: 1.5,
     borderColor: '#000',
@@ -70,13 +72,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 5,
-    marginHorizontal: 10,
+    marginHorizontal: 8,
     textAlign: 'center',
     fontFamily: fontFamily.pmedium,
-    
   },
   buttonText: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: 'bold',
     textAlign: 'center',
   },
