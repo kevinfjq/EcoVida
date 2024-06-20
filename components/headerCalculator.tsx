@@ -10,7 +10,7 @@ export default function HeaderCalculator() {
     return(
         <View style={styles.conteiner}>
             <View style={styles.profileContainer}>
-                <Image source={require("@/assets/images/userImageTest.jpg")} style={styles.userImage}/>
+                <Image source={user && user.photoURL && user.photoURL.trim().length > 0? {uri: user.photoURL} : require("@/assets/images/userImageTest.jpg") } style={styles.userImage}/>
             <View>
                 <Text style={styles.textStyle}>{user? user.displayName: "username"}</Text>
             </View>
@@ -30,8 +30,10 @@ const styles = StyleSheet.create ({
         borderWidth: 0.6,
     },
     userImage : {
-        width: 45,
-        height: 45,
+        borderWidth: 0.5,
+        borderColor: colors.gray.default,
+        width: 54,
+        height: 54,
         borderRadius: 99,
     },
     textStyle :{

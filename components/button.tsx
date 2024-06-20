@@ -1,7 +1,6 @@
 import {ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, TouchableOpacityProps, View} from "react-native";
 import {colors} from "@/src/styles/colors";
 import {fontFamily} from "@/src/styles/fontFamily";
-import {MaterialCommunityIcons} from "@expo/vector-icons";
 
 type Props = TouchableOpacityProps & {
   title: string,
@@ -47,6 +46,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 60,
+    borderWidth: 0.6
   },
   text: {
     fontSize: 18,

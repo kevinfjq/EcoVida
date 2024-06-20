@@ -6,13 +6,14 @@ import {FIREBASE_AUTH} from "@/firebaseConfig";
 import {colors} from "@/src/styles/colors";
 
 export default function HeaderHome() {
+  const user = FIREBASE_AUTH.currentUser;
     return(
         <View style={styles.conteiner}>
             <View style={styles.profileContainer}>
-                <Image source={{uri: "https://github.com/kevinfjq.png"}} style={styles.userImage}/>
+                <Image source={user && user.photoURL && user.photoURL.trim().length > 0? {uri: user.photoURL} : require("@/assets/images/userImageTest.jpg")} style={styles.userImage}/>
             <View>
                 <Text style={styles.textStyle}>Bem-vindo(a),</Text>
-                <Text style={styles.textStyle}>{FIREBASE_AUTH.currentUser? FIREBASE_AUTH.currentUser.displayName: "username"}</Text>
+                <Text style={styles.textStyle}>{user? user.displayName: "username"}</Text>
             </View>
             </View>
             <View style={styles.searchBarContainer}>
@@ -34,8 +35,10 @@ const styles = StyleSheet.create ({
         borderWidth: 1,
     },
     userImage : {
-        width: 45,
-        height: 45,
+        borderWidth: 0.5,
+        borderColor: colors.gray.default,
+        width: 54,
+        height: 54,
         borderRadius: 99,
     },
     textStyle :{

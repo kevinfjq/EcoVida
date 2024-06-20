@@ -1,19 +1,15 @@
 import { fontFamily } from "@/src/styles/fontFamily";
 import React from "react";
-import { Text, View, Image, StyleSheet } from "react-native";
+import {  View,  StyleSheet } from "react-native";
 import {FIREBASE_AUTH} from "@/firebaseConfig";
 import {colors} from "@/src/styles/colors";
 
 
 export default function HeaderUser() {
+    const user = FIREBASE_AUTH.currentUser;
     return(
         <View style={styles.conteiner}>
-            <View style={styles.profileContainer}>
-                <Image source={require("@/assets/images/userImageTest.jpg")} style={styles.userImage}/>
-            <View>
-                <Text style={styles.textStyle}>{FIREBASE_AUTH.currentUser? FIREBASE_AUTH.currentUser.displayName: "username"}</Text>
-            </View>
-            </View>
+
         </View>
     )
 }
@@ -29,8 +25,10 @@ const styles = StyleSheet.create ({
         borderWidth: 0.6,
     },
     userImage : {
-        width: 45,
-        height: 45,
+        borderWidth: 0.5,
+        borderColor: colors.gray.default,
+        width: 54,
+        height: 54,
         borderRadius: 99,
     },
     textStyle :{

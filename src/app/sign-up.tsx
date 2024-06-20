@@ -35,6 +35,7 @@ export default function SignUp() {
                 id: user.user.uid,
                 username: user.user.displayName,
                 email: user.user.email,
+                photoURL: user.user.photoURL,
                 createdAt: Timestamp.now()
               });
             }
@@ -62,13 +63,14 @@ export default function SignUp() {
               Toast.show({
                 type: 'success',
                 text1: 'Usuário cadastrado com sucesso',
-                visibilityTime: 2500
+                visibilityTime: 2000
               });
               if(!dbUser.exists()) {
                 setDoc(doc(db, "users", user.email?user.email: user.uid), {
                   id: user.uid,
                   username: username,
                   email: email,
+                  photoURL: "",
                   createdAt: Timestamp.now()
                 });
               }

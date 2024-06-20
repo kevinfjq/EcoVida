@@ -51,6 +51,7 @@ export default function Index() {
               id: user.user.uid,
               username: user.user.displayName,
               email: user.user.email,
+              photoURL: user.user.photoURL,
               createdAt: Timestamp.now()
             });
           }
@@ -80,9 +81,8 @@ export default function Index() {
           setLoading(false);
           Toast.show({
             type: 'success',
-            text1: 'Bem vindo(a)',
-            text2: 'Login feito com sucesso',
-            visibilityTime: 2500,
+            text1: 'Login feito com sucesso',
+            visibilityTime: 2000,
           });
         })
         .catch((error) => {

@@ -1,4 +1,4 @@
-import {Stack, Tabs} from "expo-router";
+import { Tabs} from "expo-router";
 import Toast from "react-native-toast-message";
 import {Image, StyleSheet, Text, View} from "react-native";
 import {fontFamily} from "@/src/styles/fontFamily";
@@ -38,6 +38,7 @@ export default function TabsLayout() {
                      options={{
                        title: "Home",
                        headerShown: false,
+                       unmountOnBlur: true,
                        tabBarIcon: ({color, focused}) => (
                            <TabIcon iconName={require("@/assets/images/icons/home.png")} color={color} focused={focused} name="Inicio"/>
                        )
@@ -47,6 +48,7 @@ export default function TabsLayout() {
                      options={{
                        title: "Home",
                        headerShown: false,
+                       unmountOnBlur: true,
                        tabBarIcon: ({color, focused}) => (
                            <TabIcon iconName={require("@/assets/images/icons/calc.png")} color={color} focused={focused} name="Calculadora"/>
                        )
@@ -56,6 +58,7 @@ export default function TabsLayout() {
                      options={{
                        title: "Home",
                        headerShown: false,
+                       unmountOnBlur: true,
                        tabBarIcon: ({color, focused}) => (
                            <TabIcon iconName={require("@/assets/images/icons/bag.png")} color={color} focused={focused} name="Produtos"/>
                        )
@@ -65,12 +68,14 @@ export default function TabsLayout() {
                      options={{
                        title: "Home",
                        headerShown: false,
+                       unmountOnBlur: true,
                        tabBarIcon: ({color, focused}) => (
                            <TabIcon iconName={require("@/assets/images/icons/profile.png")} color={color} focused={focused} name="Perfil"/>
                        )
                      }}
         />
       </Tabs>
+      <Toast />
     </>
   );
 }
