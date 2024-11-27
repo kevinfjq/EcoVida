@@ -28,6 +28,12 @@ const Calculator: React.FC = () => {
     setInputs({ ...inputs, [key]: value });
   };
 
+  //se formulário está preenchido
+  const isFormComplete = () => {
+    return Object.values(inputs).every((value) => value.trim() !== '');
+  };
+  
+
   // apresentação do resultado
   const [modalVisible, setModalVisible] = useState(false);
   const [resultMessage, setResultMessage] = useState('');
@@ -75,7 +81,7 @@ const Calculator: React.FC = () => {
     } else if (totalEmission < 200) {
       message = 'Você está na média, mas pode melhorar! \n Confira algumas dicas sustentáveis.';
     } else {
-      message = 'Opa, você está emitindo muito carbono! \n Melhor confessar os pecados...';
+      message = 'Opa, você está emitindo muito carbono! \n Repense seus hábitos!';
     }
     setResultMessage(message);
     setModalVisible(true);
@@ -254,7 +260,11 @@ const Calculator: React.FC = () => {
 
       {/* Botão para Calcular */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={calculatePegadaDeCarbono}>
+        <TouchableOpacity
+          style={[styles.button, !isFormComplete() && styles.buttonDisabled]}
+          onPress={calculatePegadaDeCarbono}
+          disabled={!isFormComplete()}
+        >
           <Text style={styles.buttonText}>Calcular Emissão</Text>
         </TouchableOpacity>
       </View>
@@ -403,6 +413,10 @@ const styles = StyleSheet.create({
   },
   picker: {
     fontFamily: fontFamily.plight,
+  },
+  buttonDisabled: {
+    backgroundColor: colors.gray.default,
+    opacity: 0.6,
   },
 });
 

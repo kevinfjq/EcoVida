@@ -16,10 +16,6 @@ export default function HeaderHome() {
                 <Text style={styles.textStyle}>{user? user.displayName: "username"}</Text>
             </View>
             </View>
-            <View style={styles.searchBarContainer}>
-                <TextInput placeholder="Pesquisar" style={styles.textInput} />
-                <FontAwesome name="search" style={styles.searchButton} size={24} color="black" />
-            </View>
         </View>
     )
 }
