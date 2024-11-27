@@ -8,14 +8,15 @@ type TabIconProps = {
   iconName: undefined
   color?: string
   name?: string
+  size?:number
   focused: boolean
 }
 
-function TabIcon ({iconName, color, name, focused}: TabIconProps) {
+function TabIcon ({iconName, color, name, focused,size}: TabIconProps) {
   return (
     <View style={styles.TabIcon}>
       <Image source={iconName} resizeMode="contain" tintColor={color} style={styles.TabIconImage}/>
-      <Text style={[focused? {fontFamily: fontFamily.psemibold} : {fontFamily: fontFamily.pregular}, {fontSize: 12, color: color}]}>{name}</Text>
+      <Text style={[focused? {fontFamily: fontFamily.psemibold} : {fontFamily: fontFamily.pregular}, {fontSize: size || 12, color: color}]}>{name}</Text>
     </View>
   )
 }
@@ -46,17 +47,17 @@ export default function TabsLayout() {
         />
         <Tabs.Screen name="calculatorScreen"
                      options={{
-                       title: "Home",
+                       title: "Calculator",
                        headerShown: false,
                        unmountOnBlur: true,
                        tabBarIcon: ({color, focused}) => (
-                           <TabIcon iconName={require("@/assets/images/icons/calc.png")} color={color} focused={focused} name="Calculadora"/>
+                           <TabIcon iconName={require("@/assets/images/icons/calc.png")} color={color} size={10} focused={focused} name="Calculadora"/>
                        )
                      }}
         />
         <Tabs.Screen name="productScreen"
                      options={{
-                       title: "Home",
+                       title: "Products",
                        headerShown: false,
                        unmountOnBlur: true,
                        tabBarIcon: ({color, focused}) => (
@@ -64,9 +65,19 @@ export default function TabsLayout() {
                        )
                      }}
         />
+        <Tabs.Screen name="habitsScreen"
+                     options={{
+                       title: "Habits",
+                       headerShown: false,
+                       unmountOnBlur: true,
+                       tabBarIcon: ({color, focused}) => (
+                         <TabIcon iconName={require("@/assets/images/icons/chart-bar-big.png")} color={color} focused={focused} name="Hábitos"/>
+                       )
+                     }}
+        />
         <Tabs.Screen name="userScreen"
                      options={{
-                       title: "Home",
+                       title: "User",
                        headerShown: false,
                        unmountOnBlur: true,
                        tabBarIcon: ({color, focused}) => (

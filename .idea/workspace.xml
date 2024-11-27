@@ -4,19 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5424c07b-9798-4048-b42c-795d2899bfd6" name="Changes" comment="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;src/app/_layout.tsx&#10;#&#9;src/app/home.tsx">
+    <list default="true" id="5424c07b-9798-4048-b42c-795d2899bfd6" name="Changes" comment="feat: add change photo function, add update user info functions, add sign out, add change password function">
+      <change afterPath="$PROJECT_DIR$/assets/images/icons/chart-bar-big.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/(tabs)/habitsScreen.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/button.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/headerCalculator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/headerCalculator.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/headerHome.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/headerHome.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/headerUser.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/headerUser.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/userInfos.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userInfos.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/(tabs)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(tabs)/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(tabs)/userScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(tabs)/userScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/sign-up.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/sign-up.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,10 +49,20 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\kevif\\WebstormProjects\\EcoVida\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="ReactDesignerToolWindowState">
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.intellij.reactbuddy.reactComponents" value="false" />
+        <entry key="com.intellij.reactbuddy.reactInspector" value="false" />
+        <entry key="com.intellij.reactbuddy.storybook" value="false" />
+      </map>
+    </option>
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\kevif\WebstormProjects\EcoVida\assets\images\icons" />
@@ -91,7 +96,18 @@
       <workItem from="1718393058410" duration="47618000" />
       <workItem from="1718765976118" duration="6000" />
       <workItem from="1718817530153" duration="13512000" />
-      <workItem from="1718858827007" duration="18201000" />
+      <workItem from="1718858827007" duration="19710000" />
+      <workItem from="1718926890651" duration="30000" />
+      <workItem from="1718930122510" duration="158000" />
+      <workItem from="1722203020406" duration="51000" />
+      <workItem from="1722262202273" duration="68000" />
+      <workItem from="1725642834404" duration="1694000" />
+      <workItem from="1726166866938" duration="34000" />
+      <workItem from="1726283233302" duration="6000" />
+      <workItem from="1726283274839" duration="18000" />
+      <workItem from="1732542378016" duration="82000" />
+      <workItem from="1732550252932" duration="1908000" />
+      <workItem from="1732719040421" duration="8467000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -181,7 +197,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718859802981</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="feat: add change photo function, add update user info functions, add sign out, add change password function">
+      <option name="closed" value="true" />
+      <created>1718914545859</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1718914545860</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -199,6 +223,7 @@
     <MESSAGE value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;src/app/_layout.tsx" />
     <MESSAGE value="feat: add tabs navigation" />
     <MESSAGE value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;src/app/_layout.tsx&#10;#&#9;src/app/home.tsx" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;src/app/_layout.tsx&#10;#&#9;src/app/home.tsx" />
+    <MESSAGE value="feat: add change photo function, add update user info functions, add sign out, add change password function" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add change photo function, add update user info functions, add sign out, add change password function" />
   </component>
 </project>

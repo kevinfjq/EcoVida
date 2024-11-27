@@ -95,7 +95,7 @@ const UserInfos: React.FC = () => {
         try {
           await updateProfile(user, {displayName: name})
           updatePhoto();
-          await setDoc(doc(db, "users", email), {username: name, photoUrl: image}, {merge: true})
+          await setDoc(doc(db, "users", email), {username: name, photoURL: image}, {merge: true})
           Toast.show({
             text1: "Alterações feitas!",
             visibilityTime: 2500
