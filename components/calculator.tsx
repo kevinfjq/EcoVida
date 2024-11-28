@@ -30,7 +30,51 @@ const Calculator: React.FC = () => {
 
   //se formulário está preenchido
   const isFormComplete = () => {
-    return Object.values(inputs).every((value) => value.trim() !== '');
+    if (inputs.mainTransport === 'Carro') {
+      return (
+        inputs.mainTransport.trim() !== '' &&
+        inputs.transportType.trim() !== '' &&
+        inputs.kmPercorrido.trim() !== '' &&
+        inputs.consumoCombustivel.trim() !== '' &&
+        inputs.dieta.trim() !== '' &&
+        inputs.kgCarneVermelha.trim() !== '' &&
+        inputs.kgCarneBranca.trim() !== '' &&
+        inputs.kgVegetais.trim() !== '' &&
+        inputs.consumoEnergia.trim() !== '' &&
+        inputs.kgLixo.trim() !== '' &&
+        inputs.kgPlastico.trim() !== '' &&
+        inputs.qntRoupas.trim() !== '' &&
+        inputs.qntGadgets.trim() !== ''
+      );
+    } else if (inputs.mainTransport === 'Ônibus') {
+      return (
+        inputs.mainTransport.trim() !== '' &&
+        inputs.kmPercorrido.trim() !== '' &&
+        inputs.dieta.trim() !== '' &&
+        inputs.kgCarneVermelha.trim() !== '' &&
+        inputs.kgCarneBranca.trim() !== '' &&
+        inputs.kgVegetais.trim() !== '' &&
+        inputs.consumoEnergia.trim() !== '' &&
+        inputs.kgLixo.trim() !== '' &&
+        inputs.kgPlastico.trim() !== '' &&
+        inputs.qntRoupas.trim() !== '' &&
+        inputs.qntGadgets.trim() !== ''
+      );
+    } else if (inputs.mainTransport === 'A pé' || inputs.mainTransport === 'Bicicleta') {
+      return (
+        inputs.mainTransport.trim() !== '' &&
+        inputs.dieta.trim() !== '' &&
+        inputs.kgCarneVermelha.trim() !== '' &&
+        inputs.kgCarneBranca.trim() !== '' &&
+        inputs.kgVegetais.trim() !== '' &&
+        inputs.consumoEnergia.trim() !== '' &&
+        inputs.kgLixo.trim() !== '' &&
+        inputs.kgPlastico.trim() !== '' &&
+        inputs.qntRoupas.trim() !== '' &&
+        inputs.qntGadgets.trim() !== ''
+      );
+    }
+    return false;
   };
   
 
@@ -63,7 +107,7 @@ const Calculator: React.FC = () => {
     foodEmission = (parseFloat(inputs.kgCarneVermelha) * 27) + (parseFloat(inputs.kgCarneBranca) * 6.9) + (parseFloat(inputs.kgVegetais) * 2);
 
     // Cálculos para Consumo de Energia
-    energyEmission = parseFloat(inputs.consumoEnergia) * 0.233;
+    energyEmission = parseFloat(inputs.consumoEnergia) * 0.0817;
 
     // Cálculos para Resíduos
     wasteEmission = ((parseFloat(inputs.kgLixo) * 0.5) + (parseFloat(inputs.kgPlastico) * 3.1)) * 4;
@@ -152,15 +196,22 @@ const Calculator: React.FC = () => {
       )}
 
       {/* Alimentação */}
+      {/* Campo de Dieta */}  
       <View style={styles.formGroup}>
-        <Text  style={styles.questionsText}>Qual é a sua dieta? (Vegetariana, vegana, onívora)</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Dieta"
-          value={inputs.dieta}
-          onChangeText={(value) => handleInputChange('dieta', value)}
-        />
+        <Text style={styles.questionsText}>Qual é a sua dieta?</Text>
+          <RNPickerSelect
+            onValueChange={(value) => handleInputChange('dieta', value)}
+            items={[
+              { label: 'Onívoro', value: 'Onívoro' },
+              { label: 'Vegetariano', value: 'Vegetariano' },
+              { label: 'Vegano', value: 'Vegano' },
+            ]}
+            style={pickerSelectStyles}
+            placeholder={{ label: 'Selecione sua dieta', value: '' }}
+            value={inputs.dieta}
+          />
       </View>
+
 
       {/* Quilos de carne vermelha */}
       <View style={styles.formGroup}>
@@ -200,7 +251,7 @@ const Calculator: React.FC = () => {
 
       {/* Consumo de Energia */}
       <View style={styles.formGroup}>
-        <Text style={styles.questionsText}>Quanto você costuma gastar de eletricidade? (Em kWh ou valor monetário)</Text>
+        <Text style={styles.questionsText}>Quanto você costuma gastar de eletricidade? (Em kWh)</Text>
         <TextInput
           style={styles.input}
           keyboardType="numeric"
@@ -212,7 +263,7 @@ const Calculator: React.FC = () => {
 
       {/* Resíduos */}
       <View style={styles.formGroup}>
-        <Text style={styles.questionsText}>Quanto lixo você produz semanalmente? (kg)</Text>
+        <Text style={styles.questionsText}>Quanto lixo aproximadamente você produz semanalmente? (kg)</Text>
         <TextInput
           style={styles.input}
           keyboardType="numeric"
