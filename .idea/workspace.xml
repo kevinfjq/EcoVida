@@ -4,14 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5424c07b-9798-4048-b42c-795d2899bfd6" name="Changes" comment="feat: add change photo function, add update user info functions, add sign out, add change password function">
-      <change afterPath="$PROJECT_DIR$/assets/images/icons/chart-bar-big.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/(tabs)/habitsScreen.tsx" afterDir="false" />
+    <list default="true" id="5424c07b-9798-4048-b42c-795d2899bfd6" name="Changes" comment="feat: add habits tab">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/userInfos.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userInfos.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/headerCalculator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/headerCalculator.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(tabs)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(tabs)/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(tabs)/habitsScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(tabs)/habitsScreen.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,6 +106,7 @@
       <workItem from="1732542378016" duration="82000" />
       <workItem from="1732550252932" duration="1908000" />
       <workItem from="1732719040421" duration="8467000" />
+      <workItem from="1732767167502" duration="10681000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />

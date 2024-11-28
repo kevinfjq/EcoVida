@@ -8,7 +8,7 @@ import {colors} from "@/src/styles/colors";
 export default function HeaderCalculator() {
     const user = FIREBASE_AUTH.currentUser;
     return(
-        <View style={styles.conteiner}>
+        <View style={styles.container}>
             <View style={styles.profileContainer}>
                 <Image source={user && user.photoURL && user.photoURL.trim().length > 0? {uri: user.photoURL} : require("@/assets/images/userImageTest.jpg") } style={styles.userImage}/>
             <View>
@@ -20,7 +20,7 @@ export default function HeaderCalculator() {
 }
 
 const styles = StyleSheet.create ({
-    conteiner:{
+    container:{
         padding: 20,
         paddingTop: 40,
         backgroundColor: colors.green["100"],
