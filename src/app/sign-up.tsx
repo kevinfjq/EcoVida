@@ -10,7 +10,7 @@ import {FIREBASE_AUTH, db} from "@/firebaseConfig";
 import {createUserWithEmailAndPassword, GoogleAuthProvider, signInWithCredential, updateProfile} from "@firebase/auth";
 import Toast from "react-native-toast-message";
 import * as Google from "expo-auth-session/providers/google";
-import { doc, getDoc, setDoc, Timestamp} from "@firebase/firestore";
+import {addDoc, collection, doc, getDoc, setDoc, Timestamp} from "@firebase/firestore";
 
 export default function SignUp() {
   const [username, setUsername] = useState('');
@@ -24,27 +24,56 @@ export default function SignUp() {
   const auth = FIREBASE_AUTH;
 
   useEffect(() => {
+    if (response?.type === 'success') {
+      const { id_token } = response.params;
+      const credential = GoogleAuthProvider.credential(id_token);
+      signInWithCredential(auth, credential).then(async (userCredential) => {
+        const user = userCredential.user;
+        const userDocRef = doc(db, "users", user.uid);
+        const dbUser = await getDoc(userDocRef);
 
-      if(response?.type == 'success') {
-        const { id_token} =response.params
-        const credential = GoogleAuthProvider.credential(id_token);
-         signInWithCredential(auth, credential).then((user) => {
-          const dbUser =  getDoc(doc(db, "users", user.user.email?user.user.email:user.user.uid)).then((dbUser) => {
-            if(!dbUser.exists()) {
-              setDoc(doc(db, "users", user.user.email?user.user.email:user.user.uid), {
-                id: user.user.uid,
-                username: user.user.displayName,
-                email: user.user.email,
-                photoURL: user.user.photoURL,
-                createdAt: Timestamp.now()
-              });
-            }
-            router.replace("/");
+        if (!dbUser.exists()) {
+          // Criar o documento do usuário
+          await setDoc(userDocRef, {
+            id: user.uid,
+            username: user.displayName,
+            email: user.email,
+            photoURL: user.photoURL,
+            createdAt: Timestamp.now(),
           });
+
+          // Criar o documento em 'habitsList' associado ao usuário
+          try {
+            await setDoc(doc(db, "habitsList", user.uid), {
+              userId: user.uid,
+              createdAt: Timestamp.now(),
+            });
+          } catch (error) {
+            console.error("Erro ao criar habitsList:", error);
+            Toast.show({
+              type: 'error',
+              text1: 'Erro',
+              text2: 'Não foi possível criar a lista de hábitos.',
+            });
+          }
+        }
+
+        Toast.show({
+          type: 'success',
+          text1: 'Login bem-sucedido',
+          visibilityTime: 2000,
         });
-      }
 
-
+        router.replace("/");
+      }).catch((error) => {
+        console.error("Erro no login com Google:", error);
+        Toast.show({
+          type: 'error',
+          text1: 'Erro no login com Google',
+          text2: error.message,
+        });
+      });
+    }
   }, [response]);
 
   async function googleLogin() {
@@ -52,59 +81,71 @@ export default function SignUp() {
   }
 
   async function signUp() {
-    try{
+    try {
       setLoading(true);
-      const dbUser = await getDoc(doc(db, "users", email));
-      await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          updateProfile(user, {displayName: username})
-            .then((userCredential) => {
-              Toast.show({
-                type: 'success',
-                text1: 'Usuário cadastrado com sucesso',
-                visibilityTime: 2000
-              });
-              if(!dbUser.exists()) {
-                setDoc(doc(db, "users", user.email?user.email: user.uid), {
-                  id: user.uid,
-                  username: username,
-                  email: email,
-                  photoURL: "",
-                  createdAt: Timestamp.now()
-                });
-              }
-              setLoading(false);
-              router.replace('/');
-            });
-        })
-        .catch((error) => {
-          const errorCode = "Falha no cadastro!";
-          let errorMessage;
-          if(error.code == "auth/credential-already-in-use" || error.code == "auth/email-already-in-use") {
-            errorMessage = "Email já cadastrado.";
-          }
-          else if(error.code == "auth/invalid-email"){
-            errorMessage = "Endereço de email inválido.";
-          }
-          else if(error.code == "auth/timeout"){
-            errorMessage = "Operação expirada.";
-          }
-          else if(error.code == "auth/internal-error" || error.code == "auth/invalid-auth-event" || error.code =="auth/no-auth-event"){
-            errorMessage = "Ocorreu um erro interno.";
-          }
-          else if(error.code == "auth/weak-password"){
-            errorMessage = "A senha deve ter 6 ou mais caracteres.";
-          }
-          setLoading(false);
+      const userCredential = await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password);
+      const user = userCredential.user;
+
+      await updateProfile(user, { displayName: username });
+
+      const userDocRef = doc(db, "users", user.uid);
+      const dbUser = await getDoc(userDocRef);
+
+      if (!dbUser.exists()) {
+        // Criar o documento do usuário
+        await setDoc(userDocRef, {
+          id: user.uid,
+          username: username,
+          email: email,
+          photoURL: "",
+          createdAt: Timestamp.now(),
+        });
+
+        // Criar o documento em 'habitsList' associado ao usuário
+        try {
+          await setDoc(doc(db, "habitsList", user.uid), {
+            userId: user.uid,
+            createdAt: Timestamp.now(),
+          });
+        } catch (error) {
+          console.error("Erro ao criar habitsList:", error);
           Toast.show({
             type: 'error',
-            text1: errorCode,
-            text2: errorMessage,
+            text1: 'Erro',
+            text2: 'Não foi possível criar a lista de hábitos.',
           });
+        }
+      }
 
-        })
-    } catch (error){}
+      Toast.show({
+        type: 'success',
+        text1: 'Usuário cadastrado com sucesso',
+        visibilityTime: 2000,
+      });
+      setLoading(false);
+      router.replace('/');
+    } catch (error: any) {
+      setLoading(false);
+      const errorCode = "Falha no cadastro!";
+      let errorMessage = "Ocorreu um erro desconhecido.";
+      if (error.code === "auth/credential-already-in-use" || error.code === "auth/email-already-in-use") {
+        errorMessage = "Email já cadastrado.";
+      } else if (error.code === "auth/invalid-email") {
+        errorMessage = "Endereço de email inválido.";
+      } else if (error.code === "auth/timeout") {
+        errorMessage = "Operação expirada.";
+      } else if (error.code === "auth/internal-error" || error.code === "auth/invalid-auth-event" || error.code === "auth/no-auth-event") {
+        errorMessage = "Ocorreu um erro interno.";
+      } else if (error.code === "auth/weak-password") {
+        errorMessage = "A senha deve ter 6 ou mais caracteres.";
+      }
+      Toast.show({
+        type: 'error',
+        text1: errorCode,
+        text2: errorMessage,
+      });
+      console.error("Erro no cadastro:", error);
+    }
   }
   return (
     <View style={styles.container}>

@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5424c07b-9798-4048-b42c-795d2899bfd6" name="Changes" comment="feat: add habits tab">
+    <list default="true" id="5424c07b-9798-4048-b42c-795d2899bfd6" name="Changes" comment="feat: add habit screen front functionalities">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/headerCalculator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/headerCalculator.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/(tabs)/habitsScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(tabs)/habitsScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/sign-up.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/sign-up.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,6 +105,8 @@
       <workItem from="1732550252932" duration="1908000" />
       <workItem from="1732719040421" duration="8467000" />
       <workItem from="1732767167502" duration="10681000" />
+      <workItem from="1732836143361" duration="2547000" />
+      <workItem from="1732889018788" duration="8055000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -209,6 +209,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial commit" />

@@ -1,6 +1,4 @@
-// src/screens/HabitsScreen.tsx
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Checkbox from 'expo-checkbox';
 import {
   FlatList,
@@ -13,12 +11,13 @@ import {
   Alert,
   Image,
 } from "react-native";
-import { Ionicons } from '@expo/vector-icons'; // Importação de ícones
+import { Ionicons } from '@expo/vector-icons';
 import { fontFamily } from "@/src/styles/fontFamily";
-import { colors } from "@/src/styles/colors"; // Certifique-se de que o objeto colors está corretamente definido
-import { Calendar, LocaleConfig } from 'react-native-calendars'; // Importação do calendário com LocaleConfig
+import { colors } from "@/src/styles/colors";
+import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { ProgressBar } from 'react-native-paper';
-import { FIREBASE_AUTH } from "@/firebaseConfig";
+import { FIREBASE_AUTH, db } from "@/firebaseConfig";
+import { collection, doc, addDoc, setDoc, getDoc, updateDoc, deleteDoc, onSnapshot, query, where, Timestamp } from '@firebase/firestore';
 
 // Configuração de Localização para Português Brasileiro
 LocaleConfig.locales['pt-br'] = {
@@ -40,9 +39,10 @@ LocaleConfig.locales['pt-br'] = {
 LocaleConfig.defaultLocale = 'pt-br';
 
 interface HabitItem {
-  id: number;
+  id: string;
   text: string;
   completed: boolean;
+  completedAt?: Timestamp | null;
 }
 
 const HabitsScreen: React.FC = () => {
@@ -53,20 +53,41 @@ const HabitsScreen: React.FC = () => {
   const [tasksPerDate, setTasksPerDate] = useState<{ [key: string]: number }>({});
 
   // Função para adicionar um novo hábito
-  const addHabit = () => {
+  const addHabit = async () => {
     if (inputText.trim() !== '') {
-      const newHabit: HabitItem = {
-        id: Date.now(),
-        text: inputText,
-        completed: false,
-      };
-      setHabits([...habits, newHabit]);
-      setInputText('');
+      try {
+        const userId = user?.uid;
+        if (!userId) {
+          throw new Error('Usuário não autenticado');
+        }
+
+        const habitsListRef = doc(db, 'habitsList', userId);
+        const habitsListDoc = await getDoc(habitsListRef);
+        if (!habitsListDoc.exists()) {
+          await setDoc(habitsListRef, {
+            userId: userId,
+            createdAt: Timestamp.now(),
+          });
+        }
+
+        await addDoc(collection(db, 'habitsItems'), {
+          habitsListId: userId,
+          text: inputText,
+          completed: false,
+          completedAt: null,
+          createdAt: Timestamp.now(),
+        });
+
+        setInputText('');
+      } catch (error) {
+        console.error('Erro ao adicionar hábito:', error);
+        Alert.alert('Erro', 'Não foi possível adicionar o hábito.');
+      }
     }
   };
 
   // Função para remover um hábito
-  const removeHabit = (id: number) => {
+  const removeHabit = (id: string) => {
     Alert.alert(
       "Remover Hábito",
       "Tem certeza de que deseja remover este hábito?",
@@ -75,9 +96,13 @@ const HabitsScreen: React.FC = () => {
         {
           text: "Remover",
           style: "destructive",
-          onPress: () => {
-            const updatedHabits = habits.filter(habit => habit.id !== id);
-            setHabits(updatedHabits);
+          onPress: async () => {
+            try {
+              await deleteDoc(doc(db, 'habitsItems', id));
+            } catch (error) {
+              console.error('Erro ao remover hábito:', error);
+              Alert.alert('Erro', 'Não foi possível remover o hábito.');
+            }
           }
         }
       ],
@@ -86,33 +111,76 @@ const HabitsScreen: React.FC = () => {
   };
 
   // Função para alternar o estado de conclusão de um hábito
-  const toggleHabit = (id: number) => {
-    const updatedHabits = habits.map((habit) => {
-      if (habit.id === id) {
-        const updatedHabit = { ...habit, completed: !habit.completed };
-        // Atualizar as tarefas por data
-        const today = new Date().toISOString().split('T')[0];
-        const updatedTasks = updatedHabit.completed
-          ? (tasksPerDate[today] || 0) + 1
-          : (tasksPerDate[today] || 1) - 1;
-        setTasksPerDate(prev => ({
-          ...prev,
-          [today]: updatedTasks > 0 ? updatedTasks : 0,
-        }));
-        // Atualizar as datas marcadas com base na conclusão do hábito
-        setMarkedDates(prevDates => ({
-          ...prevDates,
-          [today]: {
-            marked: updatedTasks > 0,
-            dotColor: updatedTasks > 0 ? colors.green['200'] : undefined,
-          },
-        }));
-        return updatedHabit;
+  const toggleHabit = async (id: string) => {
+    try {
+      const habitRef = doc(db, 'habitsItems', id);
+      const habitDoc = await getDoc(habitRef);
+      if (habitDoc.exists()) {
+        const habitData = habitDoc.data();
+        const newCompletedState = !habitData?.completed;
+
+        await updateDoc(habitRef, {
+          completed: newCompletedState,
+          completedAt: newCompletedState ? Timestamp.now() : null,
+        });
       }
-      return habit;
-    });
-    setHabits(updatedHabits);
+    } catch (error) {
+      console.error('Erro ao atualizar hábito:', error);
+      Alert.alert('Erro', 'Não foi possível atualizar o hábito.');
+    }
   };
+
+  // Carregar os hábitos do Firestore quando a tela for montada
+  useEffect(() => {
+    const userId = user?.uid;
+    if (!userId) {
+      return;
+    }
+
+    const q = query(collection(db, 'habitsItems'), where('habitsListId', '==', userId));
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const habitsData: HabitItem[] = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        habitsData.push({
+          id: doc.id,
+          text: data.text,
+          completed: data.completed,
+          completedAt: data.completedAt,
+        });
+      });
+      setHabits(habitsData);
+    }, (error) => {
+      console.error('Erro ao obter hábitos:', error);
+      Alert.alert('Erro', 'Não foi possível carregar os hábitos.');
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // Recalcular tasksPerDate e markedDates sempre que 'habits' mudar
+  useEffect(() => {
+    const newTasksPerDate: { [key: string]: number } = {};
+    const newMarkedDates: { [key: string]: any } = {};
+
+    habits.forEach((habit) => {
+      if (habit.completed && habit.completedAt) {
+        const completedDate = habit.completedAt.toDate().toISOString().split('T')[0];
+        newTasksPerDate[completedDate] = (newTasksPerDate[completedDate] || 0) + 1;
+      }
+    });
+
+    Object.keys(newTasksPerDate).forEach((date) => {
+      newMarkedDates[date] = {
+        marked: true,
+        dotColor: colors.green['200'],
+      };
+    });
+
+    setTasksPerDate(newTasksPerDate);
+    setMarkedDates(newMarkedDates);
+  }, [habits]);
 
   // Cálculo da porcentagem de conclusão
   const completionRate = habits.length > 0 ? habits.filter(h => h.completed).length / habits.length : 0;
@@ -141,7 +209,7 @@ const HabitsScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {/* Cabeçalho Inlined */}
+      {/* Cabeçalho */}
       <View style={styles.headerContainer}>
         <View style={styles.profileContainer}>
           <Image
@@ -198,7 +266,7 @@ const HabitsScreen: React.FC = () => {
         {habits.length > 0 && (
           <FlatList
             data={habits}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <View style={styles.habitItem}>
                 <Checkbox
@@ -344,11 +412,10 @@ const styles = StyleSheet.create({
   },
   progressContainer: {
     marginBottom: 20,
-    alignItems: 'center',
+
   },
   progressBar: {
-    width: '100%',
-    height: 10,
+    height: 15,
     borderRadius: 5,
     marginBottom: 5,
   },
