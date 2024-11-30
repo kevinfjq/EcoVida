@@ -28,6 +28,7 @@ const UserInfos: React.FC = () => {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
+      selectionLimit: 1,
     });
 
 

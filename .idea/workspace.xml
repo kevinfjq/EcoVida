@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5424c07b-9798-4048-b42c-795d2899bfd6" name="Changes" comment="feat: add habit screen front functionalities">
+    <list default="true" id="5424c07b-9798-4048-b42c-795d2899bfd6" name="Changes" comment="feat: habits to database">
+      <change afterPath="$PROJECT_DIR$/assets/images/fallback.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(tabs)/habitsScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(tabs)/habitsScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/sign-up.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/sign-up.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/product.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/product.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/userInfos.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userInfos.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +40,7 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/kevif/WebstormProjects/EcoVida/assets/images/icons&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/kevif/WebstormProjects/EcoVida/assets/images&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -61,6 +62,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\kevif\WebstormProjects\EcoVida\assets\images" />
       <recent name="C:\Users\kevif\WebstormProjects\EcoVida\assets\images\icons" />
       <recent name="C:\Users\kevif\WebstormProjects\EcoVida\assets\fonts" />
     </key>
@@ -106,7 +108,8 @@
       <workItem from="1732719040421" duration="8467000" />
       <workItem from="1732767167502" duration="10681000" />
       <workItem from="1732836143361" duration="2547000" />
-      <workItem from="1732889018788" duration="8055000" />
+      <workItem from="1732889018788" duration="20534000" />
+      <workItem from="1732932839874" duration="743000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -204,7 +207,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718914545860</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="feat: habits to database">
+      <option name="closed" value="true" />
+      <created>1732898793443</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1732898793444</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -234,6 +245,7 @@
     <MESSAGE value="feat: add tabs navigation" />
     <MESSAGE value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;src/app/_layout.tsx&#10;#&#9;src/app/home.tsx" />
     <MESSAGE value="feat: add change photo function, add update user info functions, add sign out, add change password function" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add change photo function, add update user info functions, add sign out, add change password function" />
+    <MESSAGE value="feat: habits to database" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: habits to database" />
   </component>
 </project>
